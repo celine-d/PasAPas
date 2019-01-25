@@ -34,3 +34,8 @@ Extraction depuis les applications mobiles (santé sur IOS et Huawei) : fichiers
 * Données liées à la santé donc potentiellement sensibles, privées/ à caractère personnel → anonymisation des données
 * Sécurité d’accès des données : qui peut y avoir accès ?
 * Niveau de précision des outils de mesures non connu 
+
+
+
+        PasAPas/50750887_315458305765721_3287143500482609152_n.jpg
+      
