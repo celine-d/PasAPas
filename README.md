@@ -38,4 +38,12 @@ Extraction depuis les applications mobiles (santé sur IOS et Huawei) : fichiers
 
 
         PasAPas/50750887_315458305765721_3287143500482609152_n.jpg
-      
+    
+ ## Premières visualisations 
+ 
+ * Sur tableau :
+        https://public.tableau.com/views/HealthData_22/Comparaisonavecrecommandations?:embed=y&:display_count=yes&publish=yes
+        
+ * Sur d3 : 
+        https://bl.ocks.org/celine-d/ed0134c25cde81f3295a126c1e5f74ce/4539862c4f31c9d29b9c5fa36d5522ecbaceec63
+        https://bl.ocks.org/lgautill/aad8bb2ad61124e0134753073fb392c6/882852a7da76896e025d876d180c902f055bd561
