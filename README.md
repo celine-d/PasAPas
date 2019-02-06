@@ -35,9 +35,11 @@ Extraction depuis les applications mobiles (santé sur IOS et Huawei) : fichiers
 * Sécurité d’accès des données : qui peut y avoir accès ?
 * Niveau de précision des outils de mesures non connu 
 
+<p align="center">
+  <img src="PasAPas/50750887_315458305765721_3287143500482609152_n.jpg" width="350" title="hover text">
+</p>
 
-
-        PasAPas/50750887_315458305765721_3287143500482609152_n.jpg
+        
     
  ## Premières visualisations 
  
