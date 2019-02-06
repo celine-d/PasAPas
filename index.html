@@ -3,18 +3,57 @@
         <div class="flex-column large-6 small-12" id="our-project">
           <div class="flex-child-content">
             <h4 class="title">Our Project</h4>
-            <p>Facebook est une mine d’or de données personnelles. Il peut être amusant simplement par propre curiosité de 
-              s’intéresser à ce qui a été conservé de son profil… tout ! Effrayant, au premier abord, notamment la première
-              fois que l’on télécharge ses données ; intéressant, ensuite. Peut-on tirer profit de ces informations, qui sont
-              en premier lieu les notre ? Pour quel usage ?
-            </p>
-            <p>Partant de ce principe, nous avons décidé de travailler sur les cycles “d’amitié”. “Amitié” au sens donné par 
-              Facebook, comme relation avec un autre utilisateur, mis en lien avec “amitié” au sens relationnel du terme. 
-              <i>Peut-on retrouver qui sont nos véritables amis, groupes d’amis et cycles d’amitié à travers les informations
-              de notre profil (amis, messages, publications, likes, commentaires, etc.) ? </i> Le but du projet est de parcourir 
-              les données de nos profils afin d’essayer d’établir une corrélation entre le nombre de messages et les lieux
-              et périodes (époque du lycée, de la prépa, par exemple), et reconnaître des amitiés réelles qui ne dépendent
-              pas seulement d’une relation “amis” sur le réseau social.
-            </p>
+            <p># PasAPas
+Pas A Pas 
+(Projet de Data Vizualisation MOS5.5)
+
+
+## Idée projet et problématique
+
+* Nous souhaiterions étudier les données sur la santé et les déplacements que nous pouvons retrouver sur nos téléphones comme le nombre de pas, les distances parcourues, les étages montés etc afin de mettre en évidence plusieurs comportements : journée type travail / week-end / vacances/ saisons. 
+
+* Nous pourrions ainsi essayer d’identifier s’il est possible de repérer un schéma ou si, au contraire, il n’est pas possible de mettre en avant un comportement régulier. 
+
+## Données personnelles dont nous aurons besoin
+
+* Nombre de pas au quotidien
+* Distances parcourues
+* Étages montés
+* autres données santé : calories brûlées etc.
+
+## Questions auxquelles nous souhaitons répondre
+
+* Peut-on, à l’aide du nombre de pas par heure, mettre en évidence certains types de comportements ? (travail, week-end, vacances)
+* Si oui, quelles sont les caractéristiques de ces comportements ? 
+* Le sujet étudié marche-t-il “assez” par jour ? (contextualisation des données)
+* La météo/saison a-t-elle une influence sur la marche ? (faible température, forte température)
+
+## Comment les collecter ? 
+
+Extraction depuis les applications mobiles (santé sur IOS et Huawei) : fichiers xml récupérés et fichier csv via l’application QS Access.
+
+
+## Quels sont les risques pour la collecte/visualisation ? (règles, éthique etc)
+
+* Sans être un risque, l’un des enjeux sous-jacent est celui de la santé
+* Données liées à la santé donc potentiellement sensibles, privées/ à caractère personnel → anonymisation des données
+* Sécurité d’accès des données : qui peut y avoir accès ?
+* Niveau de précision des outils de mesures non connu 
+
+<p align="center">
+  <img src="PasAPas/50750887_315458305765721_3287143500482609152_n.jpg" width="350" title="hover text">
+</p>
+
+        
+    
+ ## Premières visualisations 
+ 
+ * Sur tableau :
+        https://public.tableau.com/views/HealthData_22/Comparaisonavecrecommandations?:embed=y&:display_count=yes&publish=yes
+        
+ * Sur d3 : 
+        https://bl.ocks.org/celine-d/ed0134c25cde81f3295a126c1e5f74ce/4539862c4f31c9d29b9c5fa36d5522ecbaceec63
+        https://bl.ocks.org/lgautill/aad8bb2ad61124e0134753073fb392c6/882852a7da76896e025d876d180c902f055bd561
+              </p>
           </div>
         </div>
