@@ -89,7 +89,7 @@
 		var parseDate = d3.timeParse("%d-%b-%Y %H:%M"); //pour convertir dans le format date
     
     //2. Générer les données
-    d3.csv('health.csv',function(error,data){
+    d3.csv('https://raw.githubusercontent.com/celine-d/PasAPas/master/Health%20Data_jour.csv',function(error,data){
       data.forEach(function(d){
         d.start=parseDate(d.start); //mettre sous une forme de date année les données
         d.steps=+d.steps; //mettre sous forme de nombre les prix
