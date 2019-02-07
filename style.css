@@ -1,11 +1,10 @@
 div#titre {
-	style=text-align:center;
+	padding-top: 100px;
 	width:600px;
 	height:50px;
 	background-color:#81F7D8;
 	}
 div#description {
-	style=text-align:center;
 	width:600px;
 	height:400px;
 	background-color:#CEE3F6;
