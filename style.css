@@ -6,6 +6,7 @@ div#titre {
 	}
 div#description {
 	width:600px;
+	right:600px;
 	height:400px;
 	background-color:#CEE3F6;
 	}
