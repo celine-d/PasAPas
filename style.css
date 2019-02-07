@@ -1,5 +1,4 @@
 div#titre {
-	padding-top: 100px;
 	width:600px;
 	height:50px;
 	background-color:#81F7D8;
@@ -8,7 +7,6 @@ div#description {
 	width:600px;
 	height:400px;
 	background-color:#CEE3F6;
-	float:left;
 	}
 div#piedpage {
 	style=text-align:center;
