@@ -1,15 +1,18 @@
-div#Titre {
+div#Title {
+	style=text-align:center;
 	width:600px;
 	height:50px;
-	background-color:#00CCFF;
+	background-color:#58ACFA;
 	}
 div#description {
+	style=text-align:center;
 	width:600px;
 	height:400px;
-	background-color:#FFCC00;
+	background-color:#0B0B61;
 	}
-div#visualisations {
+div#piedpage {
+	style=text-align:center;
 	width:600px;
 	height:50px;
-	background-color:#33FF99;
+	background-color:#58ACFA;
 	}
