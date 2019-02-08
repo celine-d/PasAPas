@@ -38,7 +38,7 @@
     .range([30,750])//sur espace graphique
     
     var y=d3.scaleLinear() //fonction de correspondance entre deux rangs de valeurs
-    .domain([d3.min(data,function(data){return 		 data.steps;}),d3.max(data,function(data){return data.steps;})]) //données de prix en y
+    .domain([d3.min(data,function(data){return data.steps;}),d3.max(data,function(data){return data.steps;})]) //données de prix en y
     .range([400,0])//espace sur l'écran que l'on veut occuper
     
     var xAxis = d3.axisBottom()
