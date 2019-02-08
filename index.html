@@ -32,8 +32,8 @@
     //2. Générer les données
     d3.csv('https://raw.githubusercontent.com/celine-d/PasAPas/master/Health%20Data_jour.csv',function(error,data){
       data.forEach(function(d){
-        d.start=parseDate(d.start); //mettre sous une forme de date année les données
-        d.steps=+d.steps; //mettre sous forme de nombre les prix
+        d.start=parseDate(d.Start); //mettre sous une forme de date année les données
+        d.steps=+d["Steps (count)"]; //mettre sous forme de nombre les prix
       });
 
       
