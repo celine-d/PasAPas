@@ -1,91 +1,517 @@
+<document.write('
 <!DOCTYPE html>
+<html lang="en">
+
 <head>
-  <link rel="stylesheet" type="text/css" href="style.css" />
 
-  <style>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
 
-body {background-color: #0B243B; font-family: Tahoma}
-h1   {color: #0B243B;font-family: Tahoma}	  
-h3   {color: #81BEF7;font-family: Tahoma}
-h4   {color: #81BEF7;font-family: Tahoma}
-br   {color: #FFFFFF;font-family: Tahoma}
+  <title>MOS 5.5 - Visualisation interactive de données</title>
 
-  </style>	
+  <!-- Bootstrap core CSS -->
+ <!-- <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet"> -->
+  <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+  <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+  <link href="vendor/bootstrap/css/bootstrap.css" rel="stylesheet">
+
+  <!-- Custom fonts for this template -->
+  <!-- <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css"> -->
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+  <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+  <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css">
+  <link href='https://fonts.googleapis.com/css?family=Kaushan+Script' rel='stylesheet' type='text/css'>
+  <link href='https://fonts.googleapis.com/css?family=Droid+Serif:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+  <link href='https://fonts.googleapis.com/css?family=Roboto+Slab:400,100,300,700' rel='stylesheet' type='text/css'>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.0/css/bootstrap.min.css" integrity="sha384-PDle/QlgIONtM1aqA2Qemk5gPOE7wFq8+Em+G/hmo5Iq0CCmYZLv3fVRDJ4MMwEA" crossorigin="anonymous">
+
+  <!-- Custom styles for this template -->
+  <link href="css/agency.min.css" rel="stylesheet">
+
 </head>
 
-<body>
+<body id="page-top">
 
-<div id="titre">
-<h1 class="title" style="text-align:center;"> Pas a Pas</h1>
-<h3<br>(Projet de Data Vizualisation MOS5.5)</br></h3>
-</div>
-
-	
-	
-	
-<div id="description">
-<h4 class="title"  font-family: Tahoma>Idée projet et problématique</h4>
-
-<br color:white;  font-family: Tahoma>* Nous souhaiterions étudier les données sur la santé et les déplacements que nous pouvons retrouver sur nos téléphones comme le nombre de pas, les distances parcourues, les étages montés etc afin de mettre en évidence plusieurs comportements : journée type travail / week-end / vacances/ saisons.</br> 
-<br color:white;  font-family: Tahoma >* Nous pourrions ainsi essayer d’identifier s’il est possible de repérer un schéma ou si, au contraire, il n’est pas possible de mettre en avant un comportement régulier. </br> </P>
-
-<h4 class="title">Données personnelles dont nous aurons besoin</h4>	
-
-<br>* Nombre de pas au quotidien </br>
-<br>* Distances parcourues </br>
-<br>* Étages montés </br>
-<br>* autres données santé : calories brûlées etc. </br>
-
-<h4 class="title">Questions auxquelles nous souhaitons répondre</h4>		
-
-<br>* Peut-on, à l’aide du nombre de pas par heure, mettre en évidence certains types de comportements ? (travail, week-end, vacances) </br>
-<br>* Si oui, quelles sont les caractéristiques de ces comportements ? </br>
-<br>* Le sujet étudié marche-t-il “assez” par jour ? (contextualisation des données) </br>
-<br>* La météo/saison a-t-elle une influence sur la marche ? (faible température, forte température) </br> </P>
-
-<h4 class="title">Comment les collecter ?</h4>
-
-<br>Extraction depuis les applications mobiles (santé sur IOS et Huawei) : fichiers xml récupérés et fichier csv via l’application QS Access. </br> </P>
-
-<h4 class="title">Quels sont les risques pour la collecte/visualisation ? (règles, éthique etc)</h4>
-
-<br>* Sans être un risque, l’un des enjeux sous-jacent est celui de la santé </br>
-<br>* Données liées à la santé donc potentiellement sensibles, privées/ à caractère personnel → anonymisation des données </br>
-<br>* Sécurité d’accès des données : qui peut y avoir accès ?</br>
-<br>* Niveau de précision des outils de mesures non connu </br> </P>
-
-
-        
-    
-<h4 class="title">Premières visualisations</h4>
- 
-<br> * Sur tableau :
-        https://public.tableau.com/views/HealthData_22/Comparaisonavecrecommandations?:embed=y&:display_count=yes&publish=yes </br>
-        
-<br> * Sur d3 : </br>
-        <br> https://bl.ocks.org/celine-d/ed0134c25cde81f3295a126c1e5f74ce/4539862c4f31c9d29b9c5fa36d5522ecbaceec63 </br>
-       <br> https://bl.ocks.org/lgautill/aad8bb2ad61124e0134753073fb392c6/882852a7da76896e025d876d180c902f055bd561 </br>
-
-<object data="scatterplot.html" type="text/html" > </object> 
-
-              </p>
-          </div>
-</div>
+  <!-- Navigation -->
+  <nav class="navbar navbar-expand-lg navbar-dark fixed-top" id="mainNav">
+    <div class="container">
+      <a class="navbar-brand js-scroll-trigger" href="#page-top">Ecole Centrale de Lyon</a>
+      <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+        Menu
+        <i class="fas fa-bars"></i>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarResponsive">
+        <ul class="navbar-nav text-uppercase ml-auto">
+          <li class="nav-item">
+            <a class="nav-link js-scroll-trigger" href="#services">Projet</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link js-scroll-trigger" href="#portfolio">Portfolio de visualisations</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link js-scroll-trigger" href="#about">Timeline</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link js-scroll-trigger" href="#team">Equipe</a>
+          </li>
+        </ul>
+      </div>
     </div>
+  </nav>
+
+  <!-- Header -->
+  <header class="masthead">
+    <div class="container">
+      <div class="intro-text">
+        <div class="intro-lead-in">MOS 5.5 - Visualisation interactive de données </div>
+        <div class="intro-heading text-uppercase">Projet Pas à Pas!</div>
+        <a class="btn btn-primary btn-xl text-uppercase js-scroll-trigger" href="#services">Plus d'informations</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Projet -->
+  <section id="services">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-12 text-center">
+          <h2 class="section-heading text-uppercase">Projet</h2>
+          <h3 class="section-subheading text-muted">Santé et déplacements en 1 coup d'oeil</h3>
+        </div>
+      </div>
+      <div class="row text-center">
+        <div class="col-md-4">
+          <span class="fa-stack fa-4x">
+            <i class="fas fa-circle fa-stack-2x text-primary"></i>
+            <i class="fas fa-flask fa-stack-1x fa-inverse"></i>
+          </span>
+          <h4 class="service-heading">Analyse d'applications santé</h4>
+          <p class="text-muted">Nombre de pas au quotidien
+                                <br>Distances parcourues
+                                <br>Étages montés
+                                <br>Autres données santé : calories brûlées etc.</p>
+        </div>
+        <div class="col-md-4">
+          <span class="fa-stack fa-4x">
+            <i class="fas fa-circle fa-stack-2x text-primary"></i>
+            <i class="fas fa-laptop fa-stack-1x fa-inverse"></i>
+          </span>
+          <h4 class="service-heading">Problématique</h4>
+          <p class="text-muted">Etudier les données sur la santé et les déplacements que nous pouvons retrouver sur nos téléphones comme le nombre de pas, les distances parcourues, les étages montés etc afin de mettre en évidence plusieurs comportements : journée type travail / week-end / vacances/ saisons.
+         <br>Identifier s’il est possible de repérer un schéma ou si, au contraire, il n’est pas possible de mettre en avant un comportement régulier.</p>
+        </div>
+        <div class="col-md-4">
+          <span class="fa-stack fa-4x">
+            <i class="fas fa-circle fa-stack-2x text-primary"></i>
+            <i class="fas fa-lock fa-stack-1x fa-inverse"></i>
+          </span>
+          <h4 class="service-heading">Risques envisagés</h4>
+          <p class="text-muted"> <br>Données liées à la santé donc potentiellement sensibles, privées/ à caractère personnel → anonymisation des données
+                                  <br>Sécurité d’accès des données : qui peut y avoir accès ?
+                                  <br>Niveau de précision des outils de mesures non connu</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Portfolio Grid -->
+  <section class="bg-light" id="portfolio">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-12 text-center">
+          <h2 class="section-heading text-uppercase">Portfolio de visualisations</h2>
+          <h3 class="section-subheading text-muted">Visualisations réalisées</h3>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-4 col-sm-5 portfolio-item">
+          <a class="portfolio-link" data-toggle="modal" href="#portfolioModal1">
+            <div class="portfolio-hover">
+              <div class="portfolio-hover-content">
+                <i class="fas fa-plus fa-2x"></i>
+              </div>
+            </div>
+            <img class="img-fluid" src="img/portfolio/01-thumbnail.jpg" alt="">
+          </a>
+          <div class="portfolio-caption">
+            <h4>Visualisation 1</h4>
+            <p class="text-muted">Scatterplot</p>
+          </div>
+        </div>
+        <div class="col-md-4 col-sm-5 portfolio-item">
+          <a class="portfolio-link" data-toggle="modal" href="#portfolioModal2">
+            <div class="portfolio-hover">
+              <div class="portfolio-hover-content">
+                <i class="fas fa-plus fa-2x"></i>
+              </div>
+            </div>
+            <img class="img-fluid" src="img/portfolio/02-XX" alt="">
+          </a>
+          <div class="portfolio-caption">
+            <h4>Visualisation 2</h4>
+            <p class="text-muted">Descr</p>
+          </div>
+        </div>
+        <div class="col-md-4 col-sm-5 portfolio-item">
+          <a class="portfolio-link" data-toggle="modal" href="#portfolioModal3">
+            <div class="portfolio-hover">
+              <div class="portfolio-hover-content">
+                <i class="fas fa-plus fa-2x"></i>
+              </div>
+            </div>
+            <img class="img-fluid" src="img/portfolio/XX.jpg" alt="">
+          </a>
+          <div class="portfolio-caption">
+            <h4>Visualisation 3</h4>
+            <p class="text-muted">Descr</p>
+          </div>
+        </div>
+        <div class="col-md-4 col-sm-5 portfolio-item">
+          <a class="portfolio-link" data-toggle="modal" href="#portfolioModal4">
+            <div class="portfolio-hover">
+              <div class="portfolio-hover-content">
+                <i class="fas fa-plus fa-2x"></i>
+              </div>
+            </div>
+            <img class="img-fluid" src="img/portfolio/XX.jpg" alt="">
+          </a>
+          <div class="portfolio-caption">
+            <h4>Visualisation 4</h4>
+            <p class="text-muted">Descr</p>
+          </div>
+        </div>
+        <div class="col-md-4 col-sm-5 portfolio-item">
+          <a class="portfolio-link" data-toggle="modal" href="#portfolioModal5">
+            <div class="portfolio-hover">
+              <div class="portfolio-hover-content">
+                <i class="fas fa-plus fa-2x"></i>
+              </div>
+            </div>
+            <img class="img-fluid" src="img/portfolio/XX.jpg" alt="">
+          </a>
+          <div class="portfolio-caption">
+            <h4>Visualisation 5</h4>
+            <p class="text-muted">Descr</p>
+          </div>
+        </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- A propos -->
+  <section id="about">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-12 text-center">
+          <h2 class="section-heading text-uppercase">Timeline</h2>
+          <h3 class="section-subheading text-muted">Description de l'avancement</h3>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-lg-12">
+          <ul class="timeline">
+            <li>
+              <div class="timeline-image">
+                <img class="rounded-circle img-fluid" src="img/about/1.jpg" alt="">
+              </div>
+              <div class="timeline-panel">
+                <div class="timeline-heading">
+                  <h4>11 Janvier 2019</h4>
+                  <h4 class="subheading">Prémices</h4>
+                </div>
+                <div class="timeline-body">
+                  <p class="text-muted">Pour ce projet issu de notre cours de visualisation interactive de données, nous avons décidé de nous intéresser aux données sur la santé.</p>
+                </div>
+              </div>
+            </li>
+            <li class="timeline-inverted">
+              <div class="timeline-image">
+                <img class="rounded-circle img-fluid" src="img/about/3.jpg" alt="">
+              </div>
+              <div class="timeline-panel">
+                <div class="timeline-heading">
+                  <h4>Janvier-Février 2019</h4>
+                  <h4 class="subheading">Création de visualisations</h4>
+                </div>
+                <div class="timeline-body">
+                  <p class="text-muted">Nous avons mis au point différentes visualisations afin de mettre en évidence nos habitudes au quotidien.</p>
+                </div>
+              </div>
+            </li>
+            <li class="timeline">
+              <div class="timeline-image">
+                <img class="rounded-circle img-fluid" src="img/about/4.jpg" alt="">
+              </div>
+              <div class="timeline-panel">
+                <div class="timeline-heading">
+                  <h4>08 Mars 2019</h4>
+                  <h4 class="subheading">Présentation finale</h4>
+                </div>
+                <div class="timeline-body">
+                  <p class="text-muted">Nous allons présenter notre projet à l'ensemble de la classe afin d'exposer nos travaux.</p>
+                </div>
+              </div>
+            </li>
+            <li class="timeline-inverted">
+              <div class="timeline-image">
+                <h4>Soyez
+                  <br>Pas
+                  <br>à Pas!</h4>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Equipe -->
+  <section class="bg-light" id="team">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-12 text-center">
+          <h2 class="section-heading text-uppercase">Notre super équipe!</h2>
+          <h3 class="section-subheading text-muted">Equipe projet Pas à Pas</h3>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-4">
+          <div class="team-member">
+            <img class="mx-auto rounded-circle" src="img/team/1bis.jpg" alt="">
+            <h4>Sandrine Duprez</h4>
+            <p class="text-muted">Etudiante Centrale Lyon</p>
+          </div>
+        </div>
+        <div class="col-sm-4">
+          <div class="team-member">
+            <img class="mx-auto rounded-circle" src="img/team/2 bis.png" alt="">
+            <h4>Céline Duplay</h4>
+            <p class="text-muted">Etudiante Centrale Lyon</p>
+          </div>
+        </div>
+        <div class="col-sm-4">
+          <div class="team-member">
+            <img class="mx-auto rounded-circle" src="img/team/3bis.jpg" alt="">
+            <h4>Léa Gautillot</h4>
+            <p class="text-muted">Etudiante Centrale Lyon</p>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-lg-8 mx-auto text-center">
+          <p class="large text-muted">Nous vous remercions d'avoir visité notre page web!</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container">
+      <div class="row">
+        <div class="col-md-4">
+          <span class="copyright">Copyright &copy; Pas à Pas 2019</span>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Portfolio Modals -->
+
+  <!-- Modal 1 -->
+  <div class="portfolio-modal modal fade" id="portfolioModal1" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="close-modal" data-dismiss="modal">
+          <div class="lr">
+            <div class="rl"></div>
+          </div>
+        </div>
+        <div class="container">
+          <div class="row">
+            <div class="col-lg-8 mx-auto">
+              <div class="modal-body">
+                <!-- Project Details Go Here -->
+                <h2 class="text-uppercase">Pas à Pas!</h2>
+                <p class="item-intro text-muted">Visualisation 1</p>
+                <!-- <img class="img-fluid d-block mx-auto" src="img/portfolio/01-full.jpg" alt="">
+                <li><a href="./viz.html" title="">02 : Visualizations</a></li> -->
+                <!--<div><a class="container" href="./scatterplot.html" alt=""> </div>-->
+
+                  <script src="vendor/chart.js/scatterplot.js"></script>
 
 
+                <p>Ici, nous cherchons à mettre en avant les habitudes de marche par rapport à la moyenne de pas conseillés</p>
+                <ul class="list-inline">
+                  <li>Date: 2019</li>
+                  <li>Categorie: Graphique D3 - Scatterplot</li>
+                </ul>
+                <button class="btn btn-primary" data-dismiss="modal" type="button">
+                  <i class="fas fa-times"></i>
+                  Fermer</button>
+                  </div> 
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 
- <div id="piedpage">
-    <!-- Footer -->
-    <footer class="page-footer font-small">
-      <div class="footer-copyright text-center ">Projet Visualisation Interactive de données 2019 : Céline Duplay, Sandrine Duprez et Léa Gautillot  
-    </footer>
-	    </div>
-</div>
-  </script>
+  <!-- Modal 2 -->
+  <div class="portfolio-modal modal fade" id="portfolioModal2" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="close-modal" data-dismiss="modal">
+          <div class="lr">
+            <div class="rl"></div>
+          </div>
+        </div>
+        <div class="container">
+          <div class="row">
+            <div class="col-lg-8 mx-auto">
+              <div class="modal-body">
+                <!-- Project Details Go Here -->
+                <h2 class="text-uppercase">Pas à pas!</h2>
+                <p class="item-intro text-muted">Visualisation 2</p>
+                <img class="img-fluid d-block mx-auto" src="img/portfolio/02-full.jpg" alt="">
+                <p>A décrire</p>
+                <ul class="list-inline">
+                  <li>Date: 2019</li>
+                  <li>Categorie: Graphique D3</li>
+                </ul>
+                <button class="btn btn-primary" data-dismiss="modal" type="button">
+                  <i class="fas fa-times"></i>
+                  Fermer</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 
+  <!-- Modal 3 -->
+  <div class="portfolio-modal modal fade" id="portfolioModal3" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="close-modal" data-dismiss="modal">
+          <div class="lr">
+            <div class="rl"></div>
+          </div>
+        </div>
+        <div class="container">
+          <div class="row">
+            <div class="col-lg-8 mx-auto">
+              <div class="modal-body">
+                <!-- Project Details Go Here -->
+                <h2 class="text-uppercase">Pas à Pas!</h2>
+                <p class="item-intro text-muted">Visualisation 2</p>
+                <!-- <img class="img-fluid d-block mx-auto" src="img/portfolio/03-full.jpg" alt="">-->
+                <p>Description</p>
+                <ul class="list-inline">
+                  <li>Date: 2019</li>
+                  <li>Categorie: Graphique D3</li>
+                </ul>
+                <button class="btn btn-primary" data-dismiss="modal" type="button">
+                  <i class="fas fa-times"></i>
+                  Fermer</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 
+  <!-- Modal 4 -->
+  <div class="portfolio-modal modal fade" id="portfolioModal4" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="close-modal" data-dismiss="modal">
+          <div class="lr">
+            <div class="rl"></div>
+          </div>
+        </div>
+        <div class="container">
+          <div class="row">
+            <div class="col-lg-8 mx-auto">
+              <div class="modal-body">
+                <!-- Project Details Go Here -->
+                <h2 class="text-uppercase">Pas à Pas!</h2>
+                <p class="item-intro text-muted">Visualisation 4</p>
+                <!-- <img class="img-fluid d-block mx-auto" src="img/portfolio/04-full.jpg" alt="">-->
+                <p>Description</p>
+                <ul class="list-inline">
+                  <li>Date: 2019</li>
+                  <li>Categorie: Graphique D3</li>
+                </ul>
+                <button class="btn btn-primary" data-dismiss="modal" type="button">
+                  <i class="fas fa-times"></i>
+                  Fermer</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 
+  <!-- Modal 5 -->
+  <div class="portfolio-modal modal fade" id="portfolioModal5" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="close-modal" data-dismiss="modal">
+          <div class="lr">
+            <div class="rl"></div>
+          </div>
+        </div>
+        <div class="container">
+          <div class="row">
+            <div class="col-lg-8 mx-auto">
+              <div class="modal-body">
+                <!-- Project Details Go Here -->
+                <h2 class="text-uppercase">Pas à Pas!</h2>
+                <p class="item-intro text-muted">Visualisation 5</p>
+                <!-- <img class="img-fluid d-block mx-auto" src="img/portfolio/05-full.jpg" alt="">-->
+                <p>Description</p>
+                <ul class="list-inline">
+                  <li>Date: 2019</li>
+                  <li>Categorie: Graphique D3</li>
+                </ul>
+                <button class="btn btn-primary" data-dismiss="modal" type="button">
+                  <i class="fas fa-times"></i>
+                  Fermer</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 
+  
+
+  <!-- Bootstrap core JavaScript -->
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+  <!-- <script src="vendor/jquery/jquery.min.js"></script> -->
+  <!-- <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script> -->
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
+  <!-- Plugin JavaScript -->
+  <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+
+  <!-- Contact form JavaScript -->
+  <script src="js/jqBootstrapValidation.js"></script>
+  <script src="js/contact_me.js"></script>
+
+  <!-- Custom scripts for this template -->
+  <script src="js/agency.min.js"></script>
 
 </body>
+
+</html>
+');
