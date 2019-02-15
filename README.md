@@ -33,11 +33,6 @@ Extraction depuis les applications mobiles (santé sur IOS) : fichiers xml récu
 * Données liées à la santé donc potentiellement sensibles, privées/ à caractère personnel → anonymisation des données
 * Sécurité d’accès des données : qui peut y avoir accès ?
 * Niveau de précision des outils de mesures non connu 
-
-<p align="center">
-  <img src="PasAPas/scatterplot.jpg" width="350" title="hover text">
-</p>
-
         
     
  ## Premières visualisations 
@@ -50,7 +45,7 @@ Extraction depuis les applications mobiles (santé sur IOS) : fichiers xml récu
         https://bl.ocks.org/lgautill/aad8bb2ad61124e0134753073fb392c6/882852a7da76896e025d876d180c902f055bd561
         
  * Exemple ci-dessous:
-  <img src="img/team/3bis.jpg" alt="">
+  <img src="img/team/Scatterplot.JPG" alt="">
         
         
  ## Crédits
