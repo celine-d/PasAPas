@@ -45,7 +45,7 @@ Extraction depuis les applications mobiles (santé sur IOS) : fichiers xml récu
         https://bl.ocks.org/lgautill/aad8bb2ad61124e0134753073fb392c6/882852a7da76896e025d876d180c902f055bd561
         
  * Exemple ci-dessous:
-  <img src="img/team/Scatterplot.JPG" alt="">
+  <img src="img/team/Scatterplot.jpg" alt="">
         
         
  ## Crédits
