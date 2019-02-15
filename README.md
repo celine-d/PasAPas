@@ -44,8 +44,11 @@ Extraction depuis les applications mobiles (santé sur IOS) : fichiers xml récu
         https://bl.ocks.org/celine-d/ed0134c25cde81f3295a126c1e5f74ce/4539862c4f31c9d29b9c5fa36d5522ecbaceec63
         https://bl.ocks.org/lgautill/aad8bb2ad61124e0134753073fb392c6/882852a7da76896e025d876d180c902f055bd561
         
- * Exemple ci-dessous:
+ * Exemple en photo ci-dessous:
   <img src="Scatterplot.JPG" alt="">
+  
+ * Notre site:
+ https://celine-d.github.io/PasAPas/
         
         
  ## Crédits
