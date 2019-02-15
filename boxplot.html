@@ -3,7 +3,7 @@
   <meta charset="utf-8">
   <script src="https://d3js.org/d3.v4.min.js"></script>
   <style>
-    body { margin:0;position:fixed;top:0;right:20;bottom:0;left:20; }
+    body { margin:0;position:fixed;top:0;right:0;bottom:0;left:0; }
     slice {
         stroke: #fff;
         stroke-width: .5px;
@@ -32,8 +32,8 @@
     
   	var margin = {top: 20, right: 10, bottom: 20, left: 20};
     
-		var width = 470 - margin.left - margin.right,
-    		height = 250 - margin.top - margin.bottom;
+		var width = 960 - margin.left - margin.right,
+    		height = 500 - margin.top - margin.bottom;
     
     // Transformer la date dans le format conventionnel
     var parseDate = d3.timeParse("%d-%b-%Y %H:%M");
@@ -70,6 +70,7 @@
     	.entries(data);
       
     var data_dots = data_dots.map(({key, values}) => ({Jour:key, values}));
+
     // On regroupe les données par jour de la semaine puis par année
     var nested = d3.nest()
     		.key(function(d){ return d.Jour; })
@@ -119,6 +120,7 @@
           
           if (d3.max(pas) > max_global){
             	max_global = d3.max(pas)}
+
           e.pas = pas;
           e.quartile = quartile;
           e.whiskers = whiskers;
@@ -133,11 +135,13 @@
     var y = d3.scaleLinear()
     .range([height-20,0])
     .domain([min_global,max_global]);
+
     // Groupes de boxplots (jour de la semaine)
 		var x0 = d3.scaleBand()
     .range([25, width-25], .2)
     .padding(0.2)
     .domain(Jours);
+
     // Boxplots dans chaque groupe (années)
 		var x1 = d3.scaleBand()
     .range([0,x0.bandwidth() - .2])
@@ -154,9 +158,12 @@
     // Axe des x
     var xAxis = d3.axisBottom()
    			.scale(x0);
+
     // Axe des y
 		var yAxis = d3.axisLeft()
    			.scale(y);
+
+
     // Séparation en parties  
     var slice = svg.selectAll(".slice")
       .data(boxplot_data)
@@ -169,6 +176,7 @@
       .enter().append("g")
       .attr("class", "g")
       .attr("transform",function(d) { return "translate(" + x0(d.Jour) + ",0)"; });
+
       
       
     slice.selectAll(".verticalLines")
@@ -287,13 +295,15 @@
       // Ajout de l'axe des x
      svg.append("g")
       .attr("class", "x axis")
-      .attr("transform", "translate(0," + 190 + ")")
+      .attr("transform", "translate(0," + 440 + ")")
       .call(xAxis);
+
     // Ajout de l'axe des y
   	svg.append('g') 
     		.attr('transform','translate(25,' + 0 + ')')
   			.attr('class', 'y axis')
   			.call(yAxis);
+
     });
   </script>
 </body>
