@@ -1,6 +1,7 @@
 # PasAPas
 Pas A Pas 
 (Projet de Data Vizualisation MOS5.5)
+Sandrine DUPREZ, Céline DUPLAY, Léa GAUTILLOT
 
 
 ## Idée projet et problématique
@@ -49,3 +50,9 @@ Extraction depuis les applications mobiles (santé sur IOS et Huawei) : fichiers
  * Sur d3 : 
         https://bl.ocks.org/celine-d/ed0134c25cde81f3295a126c1e5f74ce/4539862c4f31c9d29b9c5fa36d5522ecbaceec63
         https://bl.ocks.org/lgautill/aad8bb2ad61124e0134753073fb392c6/882852a7da76896e025d876d180c902f055bd561
+        
+        
+ ## Crédits
+ 
+ Contenu Bootstrap
+ Cours de visualisation 2018 : https://github.com/LyonDataViz/MOS5.5-Dataviz
