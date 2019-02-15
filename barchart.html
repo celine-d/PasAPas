@@ -55,10 +55,9 @@
     var formatMois = d3.timeFormat("%B");
     var formatdate = d3.timeFormat("%B %Y");
     
-
     
-	var width = 960 - margin.left - margin.right,
-    height = 500 - margin.top - margin.bottom;
+	var width = 480 - margin.left - margin.right,
+    height = 250 - margin.top - margin.bottom;
     
 	var svg = d3.select("body").append("svg")
 		.attr("width", width + margin.left + margin.right)
@@ -67,7 +66,6 @@
 		.attr("transform", "translate(" + margin.left + "," + margin.top + ")");
   	// parse the date / time
 		var parseDate = d3.timeParse("%m_%Y"); //pour convertir dans le format date
-
     //2. Générer les données
     d3.csv('https://raw.githubusercontent.com/celine-d/PasAPas/master/Health%20Data_moisdistance3.csv',function(error,data){
       data.forEach(function(d){
@@ -75,16 +73,15 @@
         d.mois=formatdate(d.Mois)
         d.distance=+d.Distance;
       });
-
     var x = d3.scaleLinear()
           .range([0, width-70])
-    			.domain([1,500]);
+    			.domain([1,450]);
       
     var y_mois=d3.scaleBand()
     .domain(data.map(function(d){
             return d.mois;
           })) 
-    .rangeRound([400,0])//sur espace graphique
+    .rangeRound([230,0])//sur espace graphique
     
      
     var xAxis=d3.axisBottom()
@@ -105,27 +102,18 @@
       .attr("width", function(d) {return x(d.distance)*100/63; } )
       .attr("y", function(d) { return y_mois(d.mois); })
       .attr("height", y_mois.bandwidth()/1.2);
-
-
   
 function draw_all() {
-
 }
-
 function draw_seize() {
-
 }
-
 function draw_sept() {
-
 }
       
 function draw_huit() {
  
 }
-
 function draw_neuf() {
-
 }
       
 function size_stetienne() {
@@ -161,7 +149,7 @@ x.domain([1,100])
       .attr("height", y_mois.bandwidth()/1.2);
 }
  		 svg.append('g') //groupe dans lequel on met tout pour créer un axe
-  	.attr('transform', 'translate(70,' + 400 + ')') //positions (x,y)
+  	.attr('transform', 'translate(70,' + 213 + ')') //positions (x,y)
   	.attr('class', 'x axis')
   	.call(xAxis)
  
@@ -171,7 +159,6 @@ x.domain([1,100])
   	.attr('class', 'y axis')
   	.call(MoisAxis)
  
-
 // définition des relations label/fonction
 d3.select("input[value=\"all\"]").on("click", draw_all);
 d3.select("input[value=\"seize\"]").on("click", draw_seize);
@@ -181,7 +168,6 @@ d3.select("input[value=\"dix_neuf\"]").on("click", draw_neuf);
 d3.select("input[value=\"saint_etienne\"]").on("click", size_stetienne);
 d3.select("input[value=\"clermont_ferrand\"]").on("click", size_clermontferrand);
 d3.select("input[value=\"montpellier\"]").on("click", size_montpellier);
-
    
     }); 
   </script>
