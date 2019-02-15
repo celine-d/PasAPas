@@ -35,7 +35,7 @@ Extraction depuis les applications mobiles (santé sur IOS) : fichiers xml récu
 * Niveau de précision des outils de mesures non connu 
 
 <p align="center">
-  <img src="PasAPas/50750887_315458305765721_3287143500482609152_n.jpg" width="350" title="hover text">
+  <img src="PasAPas/scatterplot.jpg" width="350" title="hover text">
 </p>
 
         
