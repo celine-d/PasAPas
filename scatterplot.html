@@ -16,11 +16,11 @@
         border-radius: 2px;
         opacity: 0.9;
         position: absolute;
-      }  
+    	}  
     
     .hidden {
         display: none;
-      }
+    	}
   </style>
 </head>
 
@@ -44,10 +44,10 @@
   </form>
   <script>
     
-  var margin = {top: 20, right: 10, bottom: 20, left: 20};
+	var margin = {top: 20, right: 10, bottom: 20, left: 20};
     
-  var tooltip = d3.select("body").append("div") 
-      .attr("class", "tooltip")       
+ 	var tooltip = d3.select("body").append("div") 
+    	.attr("class", "tooltip")       
       .style("opacity", 0);
   
   var Arrondi = d3.format(".0f"); 
@@ -56,17 +56,18 @@
    var formatAnnee = d3.timeFormat("%Y");
     var formatMois = d3.timeFormat("%B");
     var formatJour = d3.timeFormat("%d");
+
     
-  var width = 480 - margin.left - margin.right,
-    height = 250 - margin.top - margin.bottom;
+	var width = 960 - margin.left - margin.right,
+    height = 500 - margin.top - margin.bottom;
     
-  var svg = d3.select("body").append("svg")
-    .attr("width", width + margin.left + margin.right)
-    .attr("height", height + margin.top + margin.bottom)
-    .append("g")
-    .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
-    // parse the date / time
-    var parseDate = d3.timeParse("%d-%b-%Y %H:%M"); //pour convertir dans le format date
+	var svg = d3.select("body").append("svg")
+		.attr("width", width + margin.left + margin.right)
+		.attr("height", height + margin.top + margin.bottom)
+		.append("g")
+		.attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+  	// parse the date / time
+		var parseDate = d3.timeParse("%d-%b-%Y %H:%M"); //pour convertir dans le format date
     
     //2. Générer les données
     d3.csv('https://raw.githubusercontent.com/celine-d/PasAPas/master/Health%20Data_jour.csv',function(error,data){
@@ -77,17 +78,17 @@
       
     var x=d3.scaleTime()
     .domain(d3.extent(data,function(data){return data.start;})) //date en x
-    .range([30,450])//sur espace graphique
+    .range([30,750])//sur espace graphique
     
     var y=d3.scaleLinear() //fonction de correspondance entre deux rangs de valeurs
     .domain([d3.min(data,function(data){return data.steps;}),d3.max(data,function(data){return data.steps;})]) //données de prix en y
-    .range([200,0])//espace sur l'écran que l'on veut occuper
+    .range([400,0])//espace sur l'écran que l'on veut occuper
     
     var xAxis = d3.axisBottom()
-    .scale(x); 
+  	.scale(x); 
     
     var yAxis = d3.axisLeft()
-    .scale(y);
+  	.scale(y);
       
     var color = d3.scaleOrdinal(d3.schemeCategory10) // échelle de couleur
      svg.selectAll(".dot")
@@ -95,19 +96,19 @@
     .enter().append("circle")
       .style("fill", "orange")
       .attr("class", "dot")
-      .attr("r", 2.4)
+     	.attr("r", 2.4)
       .attr("cx", function(d) { return x(d.start); })
       .attr("cy", function(d) { return y(d.steps); }) 
       .on('mousemove', function(d) {
-          var mouse = d3.mouse(svg.node()).map(function(d) {
+        	var mouse = d3.mouse(svg.node()).map(function(d) {
             return parseInt(d);
           })
           tooltip.classed('hidden', false)
-                  .attr('style', 'left:' + (mouse[0] + 30) + 'px; top:' + (mouse[1]) + 'px')
-                  .html(formatJour(d.start) +" "+ formatMois(d.start)+" "+ formatAnnee(d.start) +"<br>"+ Arrondi(d.steps) + " pas")
+            			.attr('style', 'left:' + (mouse[0] + 30) + 'px; top:' + (mouse[1]) + 'px')
+            			.html(formatJour(d.start) +" "+ formatMois(d.start)+" "+ formatAnnee(d.start) +"<br>"+ Arrondi(d.steps) + " pas")
      })
-                  .on('mouseout', function() {
-          tooltip.classed('hidden', true);
+        					.on('mouseout', function() {
+        	tooltip.classed('hidden', true);
           });
   
 function color_normal() {
@@ -115,12 +116,13 @@ function color_normal() {
       .data(data)
 .style("fill", "orange");
 }
+
 function color_five() {
  svg.selectAll(".dot")
       .data(data)
 .style("fill", function(d) {
             if (d.steps <= 5000) {return "red"}
-            else  { return "green" }
+            else 	{ return "green" }
         ;})
 }
       
@@ -129,39 +131,43 @@ function color_seven() {
       .data(data)
 .style("fill", function(d) {
             if (d.steps <= 7500) {return "red"}
-            else  { return "green" }
+            else 	{ return "green" }
         ;})
 }
+
 function color_ten() {
  svg.selectAll(".dot")
       .data(data)
 .style("fill", function(d) {
             if (d.steps <= 10000) {return "red"}
-            else  { return "green" }
+            else 	{ return "green" }
         ;})
 }
+
 function color_fifteen() {
    svg.selectAll(".dot")
       .data(data)
 .style("fill", function(d) {
             if (d.steps <= 15000) {return "red"}
-            else  { return "green" }
+            else 	{ return "green" }
         ;})
+
 }
+
 function size_noref() {
   svg.selectAll(".dot")
       .data(data)
-      .attr("r", 2.4)
-      .on('mousemove', function(d) {
-          var mouse = d3.mouse(svg.node()).map(function(d) {
+  		.attr("r", 2.4)
+  		.on('mousemove', function(d) {
+        	var mouse = d3.mouse(svg.node()).map(function(d) {
             return parseInt(d);
           })
           tooltip.classed('hidden', false)
-                  .attr('style', 'left:' + (mouse[0] + 30) + 'px; top:' + (mouse[1]) + 'px')
-                  .html(formatJour(d.start) +" "+ formatMois(d.start)+" "+ formatAnnee(d.start) +"<br> "+ Arrondi(d.steps) + " pas")
+            			.attr('style', 'left:' + (mouse[0] + 30) + 'px; top:' + (mouse[1]) + 'px')
+            			.html(formatJour(d.start) +" "+ formatMois(d.start)+" "+ formatAnnee(d.start) +"<br> "+ Arrondi(d.steps) + " pas")
      })
-                  .on('mouseout', function() {
-          tooltip.classed('hidden', true);
+        					.on('mouseout', function() {
+        	tooltip.classed('hidden', true);
           });
   
 }      
@@ -173,15 +179,15 @@ function size_coke() {
   .data(data)
   .attr("r", function(d){return d.nb_coke*2})
   .on('mousemove', function(d) {
-          var mouse = d3.mouse(svg.node()).map(function(d) {
+        	var mouse = d3.mouse(svg.node()).map(function(d) {
             return parseInt(d);
           })
           tooltip.classed('hidden', false)
-                  .attr('style', 'left:' + (mouse[0] + 30) + 'px; top:' + (mouse[1]) + 'px')
-                  .html(formatJour(d.start) +" "+ formatMois(d.start)+" "+ formatAnnee(d.start) +"<br>"+ Arrondi(d.steps) + " pas"+"<br>"+Arrondi1(d.nb_coke)+ " coke(s)")
+            			.attr('style', 'left:' + (mouse[0] + 30) + 'px; top:' + (mouse[1]) + 'px')
+            			.html(formatJour(d.start) +" "+ formatMois(d.start)+" "+ formatAnnee(d.start) +"<br>"+ Arrondi(d.steps) + " pas"+"<br>"+Arrondi1(d.nb_coke)+ " coke(s)")
      })
-                  .on('mouseout', function() {
-          tooltip.classed('hidden', true);
+        					.on('mouseout', function() {
+        	tooltip.classed('hidden', true);
           });
   
   
@@ -193,17 +199,17 @@ function size_bigmac() {
     d.nb_bigmac=d.steps/14371;})
      svg.selectAll(".dot")
      .data(data)
-     .attr("r", function(d){return d.nb_bigmac*3})
+ 		 .attr("r", function(d){return d.nb_bigmac*3})
      .on('mousemove', function(d) {
-          var mouse = d3.mouse(svg.node()).map(function(d) {
+        	var mouse = d3.mouse(svg.node()).map(function(d) {
             return parseInt(d);
           })
           tooltip.classed('hidden', false)
-                  .attr('style', 'left:' + (mouse[0] + 30) + 'px; top:' + (mouse[1]) + 'px')
-                  .html(formatJour(d.start) +" "+ formatMois(d.start)+" "+ formatAnnee(d.start) +"<br>"+ Arrondi(d.steps) + " pas"+"<br>"+Arrondi1(d.nb_bigmac)+ " Big Mac(s)")
+            			.attr('style', 'left:' + (mouse[0] + 30) + 'px; top:' + (mouse[1]) + 'px')
+            			.html(formatJour(d.start) +" "+ formatMois(d.start)+" "+ formatAnnee(d.start) +"<br>"+ Arrondi(d.steps) + " pas"+"<br>"+Arrondi1(d.nb_bigmac)+ " Big Mac(s)")
      })
-                  .on('mouseout', function() {
-          tooltip.classed('hidden', true);
+        					.on('mouseout', function() {
+        	tooltip.classed('hidden', true);
           });
   
 }
@@ -215,15 +221,15 @@ function size_boxe() {
   .data(data)
   .attr("r", function(d){return d.nb_boxe*0.2})
   .on('mousemove', function(d) {
-          var mouse = d3.mouse(svg.node()).map(function(d) {
+        	var mouse = d3.mouse(svg.node()).map(function(d) {
             return parseInt(d);
           })
           tooltip.classed('hidden', false)
-                  .attr('style', 'left:' + (mouse[0] + 30) + 'px; top:' + (mouse[1]) + 'px')
-                  .html(formatJour(d.start) +" "+ formatMois(d.start)+" "+ formatAnnee(d.start) +"<br>"+ Arrondi(d.steps) + " pas"+"<br>"+Arrondi(d.nb_boxe)+ " minutes of boxing")
+            			.attr('style', 'left:' + (mouse[0] + 30) + 'px; top:' + (mouse[1]) + 'px')
+            			.html(formatJour(d.start) +" "+ formatMois(d.start)+" "+ formatAnnee(d.start) +"<br>"+ Arrondi(d.steps) + " pas"+"<br>"+Arrondi(d.nb_boxe)+ " minutes of boxing")
      })
-                  .on('mouseout', function() {
-          tooltip.classed('hidden', true);
+        					.on('mouseout', function() {
+        	tooltip.classed('hidden', true);
           });
   
   
@@ -236,29 +242,30 @@ function size_swim() {
      d3.select("input[value=\"nofood\"]").attr('checked','true')
      svg.selectAll(".dot")
      .data(data)
-     .attr("r", function(d){return d.nb_swim*0.08})
+ 		 .attr("r", function(d){return d.nb_swim*0.08})
      .on('mousemove', function(d) {
-          var mouse = d3.mouse(svg.node()).map(function(d) {
+        	var mouse = d3.mouse(svg.node()).map(function(d) {
             return parseInt(d);
           })
           tooltip.classed('hidden', false)
-                  .attr('style', 'left:' + (mouse[0] + 30) + 'px; top:' + (mouse[1]) + 'px')
-                  .html(formatJour(d.start) +" "+ formatMois(d.start)+" "+ formatAnnee(d.start) +"<br>"+ Arrondi(d.steps) + " pas"+"<br>"+Arrondi(d.nb_swim)+ " minutes of slow swimming")
+            			.attr('style', 'left:' + (mouse[0] + 30) + 'px; top:' + (mouse[1]) + 'px')
+            			.html(formatJour(d.start) +" "+ formatMois(d.start)+" "+ formatAnnee(d.start) +"<br>"+ Arrondi(d.steps) + " pas"+"<br>"+Arrondi(d.nb_swim)+ " minutes of slow swimming")
      })
-                  .on('mouseout', function() {
-          tooltip.classed('hidden', true);
+        					.on('mouseout', function() {
+        	tooltip.classed('hidden', true);
           });
   
 }
-    svg.append('g') //groupe dans lequel on met tout pour créer un axe
-    .attr('transform', 'translate(0,' + 200 + ')') //positions (x,y)
-    .attr('class', 'x axis')
-    .call(xAxis)
+ 		svg.append('g') //groupe dans lequel on met tout pour créer un axe
+  	.attr('transform', 'translate(0,' + 400 + ')') //positions (x,y)
+  	.attr('class', 'x axis')
+  	.call(xAxis)
     
     svg.append('g') //groupe dans lequel on met tout pour créer un axe
     .attr('transform','translate(30,' + 0 + ')')
-    .attr('class', 'y axis')
-    .call(yAxis)
+  	.attr('class', 'y axis')
+  	.call(yAxis)
+
 // définition des relations label/fonction
 d3.select("input[value=\"nosteps\"]").on("click", color_normal);
 d3.select("input[value=\"five_steps\"]").on("click", color_five);
