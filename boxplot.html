@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<head>
+  <meta charset="utf-8">
+  <script src="https://d3js.org/d3.v4.min.js"></script>
+  <style>
+    body { margin:0;position:fixed;top:0;right:0;bottom:0;left:0; }
+    slice {
+        stroke: #fff;
+        stroke-width: .5px;
+      }
+    	slice:hover {
+        fill: grey;
+        opacity : 0.6;
+      }
+    	.hidden {
+        display: none;
+    	}
+   		div.tooltip {
+        color: #222;
+        background-color: #fff;
+        padding: .5em;
+        text-shadow: #f5f5f5 0 1px 0;
+        border-radius: 2px;
+        opacity: 0.9;
+        position: absolute;
+    	} 
+  </style>
+</head>
+
+<body>
+  <script>
+    
+  	var margin = {top: 20, right: 10, bottom: 20, left: 20};
+    
+		var width = 960 - margin.left - margin.right,
+    		height = 500 - margin.top - margin.bottom;
+    
+    // Transformer la date dans le format conventionnel
+    var parseDate = d3.timeParse("%d-%b-%Y %H:%M");
+    
+    // Récupérer l'année, le mois, le jour de la semaine 
+    var formatAnnee = d3.timeFormat("%Y");
+    var formatMois = d3.timeFormat("%B");
+    var formatJour = d3.timeFormat("%d");
+    var formatJourSemaine = d3.timeFormat("%A");
+    
+    var Arrondi = d3.format(".0f");
+    
+    var colors = d3.scaleOrdinal(d3.schemeCategory10);
+    
+    var tooltip = d3.select("body").append("div") 
+    	.attr("class", "tooltip")       
+      .style("opacity", 0);
+    
+    d3.csv('https://raw.githubusercontent.com/celine-d/PasAPas/master/Health%20Data_jour.csv', function(data) { 
+    
+    data.forEach(function(d, i){
+      
+      d.Date = parseDate(d.Start);
+      d.Steps = +d['Steps (count)']
+      d.Mois = formatMois(d.Date);
+      d.Annee = formatAnnee(d.Date); 
+      d.Jour = formatJourSemaine(d.Date);
+      d.NumJour = formatJour(d.Date);
+      
+    })  
+    
+    var data_dots = d3.nest()
+    	.key(function(d){ return d.Jour;})
+    	.entries(data);
+      
+    var data_dots = data_dots.map(({key, values}) => ({Jour:key, values}));
+
+    // On regroupe les données par jour de la semaine puis par année
+    var nested = d3.nest()
+    		.key(function(d){ return d.Jour; })
+				.key(function(d){ return d.Annee; })
+				.entries(data); 
+    
+      
+      
+    // Préparation des données pour les boxplots
+      
+    var boxplot_data = nested.map(({key, values}) => ({Jour:key, values}));
+      
+    var min_global = Infinity;
+    var max_global = 0;
+    
+   
+    boxplot_data.forEach(function(d,i){
+      	// On parcourt les jours de la semaine 
+      
+      	dat = d.values;
+        var dat = dat.map(({key, values}) => ({Annee:key, values}));
+      	d.values = dat; 
+      
+      	dat.forEach(function(e,j){
+          // On parcourt les années
+          
+          dat2 = e.values;
+          
+          // On met les données dans l'ordre croissant selon le nombre de pas
+          dat2.sort(function(x, y){
+  					return d3.ascending(x.Steps, y.Steps);
+					})
+          
+          // On met les nombres de pas dans une liste 
+          var pas = []
+          dat2.forEach(function(f,k){
+            pas.push(f.Steps)
+          }) 
+        
+          var quartile = [d3.quantile(pas, .25),
+    	    	d3.quantile(pas, .5),
+    				d3.quantile(pas, .75)];
+          var whiskers = [d3.min(pas),d3.max(pas)];
+          
+          if (d3.min(pas) < min_global){
+            	min_global = d3.min(pas)}
+          
+          if (d3.max(pas) > max_global){
+            	max_global = d3.max(pas)}
+
+          e.pas = pas;
+          e.quartile = quartile;
+          e.whiskers = whiskers;
+          
+        })
+    })
+    
+    var Jours = boxplot_data.map(function(d) { return d.Jour; });
+  	var Annees = boxplot_data[0].values.map(function(d) { return d.Annee; });
+      
+    // Axe vertical linéaire
+    var y = d3.scaleLinear()
+    .range([height-20,0])
+    .domain([min_global,max_global]);
+
+    // Groupes de boxplots (jour de la semaine)
+		var x0 = d3.scaleBand()
+    .range([25, width-25], .2)
+    .padding(0.2)
+    .domain(Jours);
+
+    // Boxplots dans chaque groupe (années)
+		var x1 = d3.scaleBand()
+    .range([0,x0.bandwidth() - .2])
+    .padding(0.2)
+  	.domain(Annees);
+      
+    // Création du SVG
+    var svg = d3.select("body").append("svg")
+    .attr("width", width + margin.left + margin.right)
+    .attr("height", height + margin.top + margin.bottom)
+    .append("g")
+    .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+      
+    // Axe des x
+    var xAxis = d3.axisBottom()
+   			.scale(x0);
+
+    // Axe des y
+		var yAxis = d3.axisLeft()
+   			.scale(y);
+
+
+    // Séparation en parties  
+    var slice = svg.selectAll(".slice")
+      .data(boxplot_data)
+      .enter().append("g")
+      .attr("class", "g")
+      .attr("transform",function(d) { return "translate(" + x0(d.Jour) + ",0)"; });
+      
+    var slice2 = svg.selectAll(".slice")
+      .data(data_dots)
+      .enter().append("g")
+      .attr("class", "g")
+      .attr("transform",function(d) { return "translate(" + x0(d.Jour) + ",0)"; });
+
+      
+      
+    slice.selectAll(".verticalLines")
+    .data(function(d){return d.values})
+      .enter().append("line")
+    .attr("x1", function(d) {return  x1(d.Annee) + x1.bandwidth()/2;})
+    .attr("y1", function(d) {
+        var whisker = d.whiskers[0];
+        return y(whisker);})
+    .attr("x2", function(d) {return x1(d.Annee) + x1.bandwidth()/2;})
+    .attr("y2", function(d) {
+        var whisker = d.whiskers[1];
+        return y(whisker);})
+      .attr("stroke","#000")
+    .attr("stroke-width", 1)
+    .attr("fill", "none");
+      
+      slice.selectAll(".highwhiskersLines")
+    .data(function(d){return d.values})
+      .enter().append("line")
+    .attr("x1", function(d) {return  x1(d.Annee);})
+    .attr("y1", function(d) {
+        var whisker = d.whiskers[1];
+        return y(whisker);})
+    .attr("x2", function(d) {return x1(d.Annee) + x1.bandwidth();})
+    .attr("y2", function(d) {
+        var whisker = d.whiskers[1];
+        return y(whisker);})
+      .attr("opacity",0.5)
+      .attr("stroke", "#000")
+    .attr("stroke-width", 1)
+    .attr("fill", "none");
+      
+      slice.selectAll(".bottomwhiskersLines")
+    .data(function(d){return d.values})
+      .enter().append("line")
+    .attr("x1", function(d) {return  x1(d.Annee);})
+    .attr("y1", function(d) {
+        var whisker = d.whiskers[0];
+        return y(whisker);})
+    .attr("x2", function(d) {return x1(d.Annee) + x1.bandwidth();})
+    .attr("y2", function(d) {
+        var whisker = d.whiskers[0];
+        return y(whisker);})
+      .attr("opacity",0.5)
+      .attr("stroke", "#000")
+    .attr("stroke-width", 1)
+    .attr("fill", "none");
+      
+      
+      
+      // Ajout des points
+    slice2.selectAll(".dot")
+    	.data(function(d){return d.values})
+      .enter().append("circle")
+      .attr("class", "dot")
+     	.attr("r", 2.5)
+      .attr("cx", function(d) { return x1(d.Annee) + x1.bandwidth()/2; })
+      .attr("cy", function(d) { return y(d.Steps); }) 
+    	.style("fill", function(d) { return colors(d.Annee) })
+      .on('mousemove', function(d) {
+        	var mouse = d3.mouse(svg.node()).map(function(d) {
+            return parseInt(d);
+          });
+          tooltip.classed('hidden', false)
+            .attr('style', 'left:' + (mouse[0] + 30) + 'px; top:' + (mouse[1]) + 'px')
+            .html(d.NumJour +" "+d.Mois+ " "+d.Annee + "<br>"+Arrondi(d.Steps) + " pas")})
+        .on('mouseout', function() {
+        	tooltip.classed('hidden', true);
+          });
+      
+      
+  		slice.selectAll("rect")
+      	.data(function(d) { return d.values; })
+  			.enter().append("rect")
+      	.attr("x", function(d) { return x1(d.Annee); }) 
+      	.attr("y", function(d) { return y(d.quartile[2])})
+      	.attr("width", x1.bandwidth()) 
+      	.attr("height", function(d) {
+                          var quartiles = d.quartile;
+                          var height = y(quartiles[0])-y(quartiles[2]);
+                          return height;})
+      	.style("fill", function(d) { return colors(d.Annee) })
+      .attr("stroke", "#000")
+      .attr("stroke-width", 1)
+      .attr("opacity",0.5)
+      .on('mousemove', function(d) {
+        	var mouse = d3.mouse(svg.node()).map(function(d) {
+            console.log(parseInt(d))
+            return parseInt(d);
+          });
+          tooltip.classed('hidden', false)
+            .attr('style', 'left:' + (mouse[0] + 30) + 'px; top:' + (mouse[1] - 35) + 'px')
+            .html(d.Annee + "<br>" + "1er quartile : "+Arrondi(d.quartile[0])+"<br>" + "Médiane : "+Arrondi(d.quartile[1])+"<br>" + "3ème quartile : "+Arrondi(d.quartile[2]));
+          })
+        .on('mouseout', function() {
+        	tooltip.classed('hidden', true);
+          });
+      
+      slice.selectAll(".medianLines")
+    .data(function(d){return d.values})
+      .enter().append("line")
+    .attr("x1", function(d) {return  x1(d.Annee);})
+    .attr("y1", function(d) {
+        var whisker = d.quartile[1];
+        return y(whisker);})
+    .attr("x2", function(d) {return x1(d.Annee) + x1.bandwidth();})
+    .attr("y2", function(d) {
+        var whisker = d.quartile[1];
+        return y(whisker);})
+    .attr("opacity",0.5)
+    .attr("stroke", "#000")
+    .attr("stroke-width", 1)
+    .attr("fill", "none");
+      
+      // Ajout de l'axe des x
+     svg.append("g")
+      .attr("class", "x axis")
+      .attr("transform", "translate(0," + 440 + ")")
+      .call(xAxis);
+
+    // Ajout de l'axe des y
+  	svg.append('g') 
+    		.attr('transform','translate(25,' + 0 + ')')
+  			.attr('class', 'y axis')
+  			.call(yAxis);
+
+    });
+  </script>
+</body>
