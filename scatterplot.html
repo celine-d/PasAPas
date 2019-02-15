@@ -8,13 +8,55 @@
     path { 
     fill: none;
 }
+   div.tooltip {
+        color: #222;
+        background-color: #fff;
+        padding: .5em;
+        text-shadow: #f5f5f5 0 1px 0;
+        border-radius: 2px;
+        opacity: 0.9;
+        position: absolute;
+    	}  
+    
+    .hidden {
+        display: none;
+    	}
   </style>
 </head>
 
 <body>
+    <form>
+  Number of steps :
+      <label><input type="radio" name="steps" value="nosteps" checked> None</label>
+    <label><input type="radio" name="steps" value="five_steps"> 5 000 steps</label>
+      <label><input type="radio" name="steps" value="seven_steps"> 7 500 steps</label>
+    <label><input type="radio" name="steps" value="ten_steps" > 10 000 steps</label>
+    <label><input type="radio" name="steps" value="fifteen_steps"> 15 000 steps</label>  
+  </form>
+
+  <form>
+  Reference :
+    <label><input type="radio" name="ref" value="noref" checked> None</label>
+    <label><input type="radio" name="ref" value="coke"> can of Coke (330mL) : 139 kcal</label>
+    <label><input type="radio" name="ref" value="big_mac" > Big Mac : 503 kcal</label>
+    <label><input type="radio" name="ref" value="boxe"> minute of boxing : 300 steps</label>
+    <label><input type="radio" name="ref" value="swim" > minute of slow swimming : 100 steps</label>
+  </form>
   <script>
     
 	var margin = {top: 20, right: 10, bottom: 20, left: 20};
+    
+ 	var tooltip = d3.select("body").append("div") 
+    	.attr("class", "tooltip")       
+      .style("opacity", 0);
+  
+  var Arrondi = d3.format(".0f"); 
+  var Arrondi1 = d3.format(".1f"); 
+    
+   var formatAnnee = d3.timeFormat("%Y");
+    var formatMois = d3.timeFormat("%B");
+    var formatJour = d3.timeFormat("%d");
+
     
 	var width = 960 - margin.left - margin.right,
     height = 500 - margin.top - margin.bottom;
@@ -24,8 +66,6 @@
 		.attr("height", height + margin.top + margin.bottom)
 		.append("g")
 		.attr("transform", "translate(" + margin.left + "," + margin.top + ")");
-
-
   	// parse the date / time
 		var parseDate = d3.timeParse("%d-%b-%Y %H:%M"); //pour convertir dans le format date
     
@@ -35,7 +75,6 @@
         d.start=parseDate(d.Start); //mettre sous une forme de date année les données
         d.steps=+d["Steps (count)"]; //mettre sous forme de nombre les prix
       });
-
       
     var x=d3.scaleTime()
     .domain(d3.extent(data,function(data){return data.start;})) //date en x
@@ -52,19 +91,171 @@
   	.scale(y);
       
     var color = d3.scaleOrdinal(d3.schemeCategory10) // échelle de couleur
-
      svg.selectAll(".dot")
       .data(data)
     .enter().append("circle")
+      .style("fill", "orange")
       .attr("class", "dot")
-     	.attr("r", 2.5)
+     	.attr("r", 2.4)
       .attr("cx", function(d) { return x(d.start); })
       .attr("cy", function(d) { return y(d.steps); }) 
-    	.style("fill", function(d) {
+      .on('mousemove', function(d) {
+        	var mouse = d3.mouse(svg.node()).map(function(d) {
+            return parseInt(d);
+          })
+          tooltip.classed('hidden', false)
+            			.attr('style', 'left:' + (mouse[0] + 30) + 'px; top:' + (mouse[1]) + 'px')
+            			.html(formatJour(d.start) +" "+ formatMois(d.start)+" "+ formatAnnee(d.start) +"<br>"+ Arrondi(d.steps) + " pas")
+     })
+        					.on('mouseout', function() {
+        	tooltip.classed('hidden', true);
+          });
+  
+function color_normal() {
+ svg.selectAll(".dot")
+      .data(data)
+.style("fill", "orange");
+}
+
+function color_five() {
+ svg.selectAll(".dot")
+      .data(data)
+.style("fill", function(d) {
+            if (d.steps <= 5000) {return "red"}
+            else 	{ return "green" }
+        ;})
+}
+      
+function color_seven() {
+ svg.selectAll(".dot")
+      .data(data)
+.style("fill", function(d) {
+            if (d.steps <= 7500) {return "red"}
+            else 	{ return "green" }
+        ;})
+}
+
+function color_ten() {
+ svg.selectAll(".dot")
+      .data(data)
+.style("fill", function(d) {
             if (d.steps <= 10000) {return "red"}
             else 	{ return "green" }
         ;})
+}
+
+function color_fifteen() {
+   svg.selectAll(".dot")
+      .data(data)
+.style("fill", function(d) {
+            if (d.steps <= 15000) {return "red"}
+            else 	{ return "green" }
+        ;})
+
+}
+
+function size_noref() {
+  svg.selectAll(".dot")
+      .data(data)
+  		.attr("r", 2.4)
+  		.on('mousemove', function(d) {
+        	var mouse = d3.mouse(svg.node()).map(function(d) {
+            return parseInt(d);
+          })
+          tooltip.classed('hidden', false)
+            			.attr('style', 'left:' + (mouse[0] + 30) + 'px; top:' + (mouse[1]) + 'px')
+            			.html(formatJour(d.start) +" "+ formatMois(d.start)+" "+ formatAnnee(d.start) +"<br> "+ Arrondi(d.steps) + " pas")
+     })
+        					.on('mouseout', function() {
+        	tooltip.classed('hidden', true);
+          });
+  
+}      
+      
+function size_coke() {
+  data.forEach(function(d){
+    d.nb_coke=d.steps/3971;})
+  svg.selectAll(".dot")
+  .data(data)
+  .attr("r", function(d){return d.nb_coke*2})
+  .on('mousemove', function(d) {
+        	var mouse = d3.mouse(svg.node()).map(function(d) {
+            return parseInt(d);
+          })
+          tooltip.classed('hidden', false)
+            			.attr('style', 'left:' + (mouse[0] + 30) + 'px; top:' + (mouse[1]) + 'px')
+            			.html(formatJour(d.start) +" "+ formatMois(d.start)+" "+ formatAnnee(d.start) +"<br>"+ Arrondi(d.steps) + " pas"+"<br>"+Arrondi1(d.nb_coke)+ " coke(s)")
+     })
+        					.on('mouseout', function() {
+        	tooltip.classed('hidden', true);
+          });
+  
+  
+}
+        
+  
+function size_bigmac() {
+     data.forEach(function(d){
+    d.nb_bigmac=d.steps/14371;})
+     svg.selectAll(".dot")
+     .data(data)
+ 		 .attr("r", function(d){return d.nb_bigmac*3})
+     .on('mousemove', function(d) {
+        	var mouse = d3.mouse(svg.node()).map(function(d) {
+            return parseInt(d);
+          })
+          tooltip.classed('hidden', false)
+            			.attr('style', 'left:' + (mouse[0] + 30) + 'px; top:' + (mouse[1]) + 'px')
+            			.html(formatJour(d.start) +" "+ formatMois(d.start)+" "+ formatAnnee(d.start) +"<br>"+ Arrondi(d.steps) + " pas"+"<br>"+Arrondi1(d.nb_bigmac)+ " Big Mac(s)")
+     })
+        					.on('mouseout', function() {
+        	tooltip.classed('hidden', true);
+          });
+  
+}
     
+function size_boxe() {
+  data.forEach(function(d){
+    d.nb_boxe=d.steps/300;})
+  svg.selectAll(".dot")
+  .data(data)
+  .attr("r", function(d){return d.nb_boxe*0.2})
+  .on('mousemove', function(d) {
+        	var mouse = d3.mouse(svg.node()).map(function(d) {
+            return parseInt(d);
+          })
+          tooltip.classed('hidden', false)
+            			.attr('style', 'left:' + (mouse[0] + 30) + 'px; top:' + (mouse[1]) + 'px')
+            			.html(formatJour(d.start) +" "+ formatMois(d.start)+" "+ formatAnnee(d.start) +"<br>"+ Arrondi(d.steps) + " pas"+"<br>"+Arrondi(d.nb_boxe)+ " minutes of boxing")
+     })
+        					.on('mouseout', function() {
+        	tooltip.classed('hidden', true);
+          });
+  
+  
+}
+        
+  
+function size_swim() {
+     data.forEach(function(d){
+    d.nb_swim=d.steps/100;})
+     d3.select("input[value=\"nofood\"]").attr('checked','true')
+     svg.selectAll(".dot")
+     .data(data)
+ 		 .attr("r", function(d){return d.nb_swim*0.08})
+     .on('mousemove', function(d) {
+        	var mouse = d3.mouse(svg.node()).map(function(d) {
+            return parseInt(d);
+          })
+          tooltip.classed('hidden', false)
+            			.attr('style', 'left:' + (mouse[0] + 30) + 'px; top:' + (mouse[1]) + 'px')
+            			.html(formatJour(d.start) +" "+ formatMois(d.start)+" "+ formatAnnee(d.start) +"<br>"+ Arrondi(d.steps) + " pas"+"<br>"+Arrondi(d.nb_swim)+ " minutes of slow swimming")
+     })
+        					.on('mouseout', function() {
+        	tooltip.classed('hidden', true);
+          });
+  
+}
  		svg.append('g') //groupe dans lequel on met tout pour créer un axe
   	.attr('transform', 'translate(0,' + 400 + ')') //positions (x,y)
   	.attr('class', 'x axis')
@@ -74,9 +265,19 @@
     .attr('transform','translate(30,' + 0 + ')')
   	.attr('class', 'y axis')
   	.call(yAxis)
-  
+
+// définition des relations label/fonction
+d3.select("input[value=\"nosteps\"]").on("click", color_normal);
+d3.select("input[value=\"five_steps\"]").on("click", color_five);
+d3.select("input[value=\"seven_steps\"]").on("click", color_seven);
+d3.select("input[value=\"ten_steps\"]").on("click", color_ten);
+d3.select("input[value=\"fifteen_steps\"]").on("click", color_fifteen);
+d3.select("input[value=\"noref\"]").on("click", size_noref);
+d3.select("input[value=\"big_mac\"]").on("click", size_bigmac);
+d3.select("input[value=\"coke\"]").on("click", size_coke);
+d3.select("input[value=\"boxe\"]").on("click", size_boxe);
+d3.select("input[value=\"swim\"]").on("click", size_swim);
    
-   
-    }); //tout mettre dans le d3.csv() pour utiliser data etc
+    }); 
   </script>
 </body>
