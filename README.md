@@ -1,7 +1,7 @@
 # PasAPas
 Pas A Pas 
 (Projet de Data Vizualisation MOS5.5)
-Sandrine DUPREZ, Céline DUPLAY, Léa GAUTILLOT
+</br> Sandrine DUPREZ, Céline DUPLAY, Léa GAUTILLOT
 
 
 ## Idée projet et problématique
