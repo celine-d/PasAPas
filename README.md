@@ -55,4 +55,4 @@ Extraction depuis les applications mobiles (santé sur IOS et Huawei) : fichiers
  ## Crédits
  
  Contenu Bootstrap
- Cours de visualisation 2018 : https://github.com/LyonDataViz/MOS5.5-Dataviz
+ <br> Cours de visualisation 2018 : https://github.com/LyonDataViz/MOS5.5-Dataviz
