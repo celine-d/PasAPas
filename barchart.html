@@ -8,6 +8,7 @@
     path { 
     fill: none;
 }
+
    div.tooltip {
         color: #222;
         background-color: #fff;
@@ -44,28 +45,28 @@
     
 	var margin = {top: 20, right: 10, bottom: 20, left: 20};
     
- 	var tooltip = d3.select("body").append("div") 
+   	var tooltip = d3.select("body").append("div") 
     	.attr("class", "tooltip")       
       .style("opacity", 0);
   
-  var Arrondi = d3.format(".0f"); 
-  var Arrondi1 = d3.format(".1f"); 
+    var Arrondi = d3.format(".0f"); 
+    var Arrondi1 = d3.format(".1f"); 
     
     var formatAnnee = d3.timeFormat("%Y");
     var formatMois = d3.timeFormat("%B");
     var formatdate = d3.timeFormat("%B %Y");
     
+	  var width = 960 - margin.left - margin.right,
+    height = 500 - margin.top - margin.bottom;
     
-	var width = 480 - margin.left - margin.right,
-    height = 250 - margin.top - margin.bottom;
-    
-	var svg = d3.select("body").append("svg")
+	  var svg = d3.select("body").append("svg")
 		.attr("width", width + margin.left + margin.right)
 		.attr("height", height + margin.top + margin.bottom)
 		.append("g")
 		.attr("transform", "translate(" + margin.left + "," + margin.top + ")");
   	// parse the date / time
 		var parseDate = d3.timeParse("%m_%Y"); //pour convertir dans le format date
+
     //2. Générer les données
     d3.csv('https://raw.githubusercontent.com/celine-d/PasAPas/master/Health%20Data_moisdistance3.csv',function(error,data){
       data.forEach(function(d){
@@ -73,15 +74,18 @@
         d.mois=formatdate(d.Mois)
         d.distance=+d.Distance;
       });
+
     var x = d3.scaleLinear()
           .range([0, width-70])
-    			.domain([1,450]);
+    			.domain([0,5]);
       
     var y_mois=d3.scaleBand()
     .domain(data.map(function(d){
             return d.mois;
-          })) 
-    .rangeRound([230,0])//sur espace graphique
+          }).sort(function(a, b) {
+    return a > b;
+})) 
+    .rangeRound([400,0])//sur espace graphique
     
      
     var xAxis=d3.axisBottom()
@@ -90,75 +94,123 @@
     var MoisAxis= d3.axisLeft()
   	.scale(y_mois);
       
-      
-    var color = d3.scaleOrdinal(d3.schemeCategory10) // échelle de couleur
-    
     svg.selectAll(".bar")
       .data(data)
       .enter().append("rect")
       .attr("class", "bar")
     	.style("fill", "grey")
       .attr('transform','translate(70,' + 0 + ')')
-      .attr("width", function(d) {return x(d.distance)*100/63; } )
+      .attr("width", function(d) {return x(d.distance)/63; } )
       .attr("y", function(d) { return y_mois(d.mois); })
-      .attr("height", y_mois.bandwidth()/1.2);
+      .attr("height", y_mois.bandwidth()/1.2)
+      .on('mousemove', function(d) {
+        	var mouse = d3.mouse(svg.node()).map(function(d) {
+            return parseInt(d);
+          })
+          tooltip.classed('hidden', false)
+            			.attr('style', 'left:' + (mouse[0] + 30) + 'px; top:' + (mouse[1]) + 'px')
+            			.html(d.mois+"<br>"+ Arrondi(d.distance) + " km"+"<br>"+Arrondi1(d.distance/63)+" Lyon-Saint-Étienne")
+     })
+        					.on('mouseout', function() {
+        	tooltip.classed('hidden', true);
+          });
+
   
 function draw_all() {
+
 }
+
 function draw_seize() {
 }
+                  
 function draw_sept() {
+
 }
       
 function draw_huit() {
  
 }
+
 function draw_neuf() {
+
 }
       
 function size_stetienne() {
-  	x.domain([1,500])
     svg.selectAll(".bar")
       .attr("class", "bar")
     	.style("fill", "grey")
       .attr('transform','translate(70,' + 0 + ')')
-      .attr("width", function(d) {return x(d.distance)*100/63; } )
+      .attr("width", function(d) {return x(d.distance)/63; } )
       .attr("y", function(d) { return y_mois(d.mois); })
-      .attr("height", y_mois.bandwidth()/1.2);
+      .attr("height", y_mois.bandwidth()/1.2)
+    	.on('mousemove', function(d) {
+        	var mouse = d3.mouse(svg.node()).map(function(d) {
+            return parseInt(d);
+          })
+          tooltip.classed('hidden', false)
+            			.attr('style', 'left:' + (mouse[0] + 30) + 'px; top:' + (mouse[1]) + 'px')
+            			.html(d.mois+"<br>"+ Arrondi(d.distance) + " km"+"<br>"+Arrondi1(d.distance/63)+" Lyon-Saint-Étienne")
+     })
+        					.on('mouseout', function() {
+        	tooltip.classed('hidden', true);
+          });
+
+
 }
       
 function size_clermontferrand() {
-	x.domain([1,200])
     svg.selectAll(".bar")
       .attr("class", "bar")
-    	.style("fill", "grey")
+    	.style("fill", "orange")
       .attr('transform','translate(70,' + 0 + ')')
-      .attr("width", function(d) {return x(d.distance)*100/164; } )
+      .attr("width", function(d) {return x(d.distance)/164; } )
       .attr("y", function(d) { return y_mois(d.mois); })
-      .attr("height", y_mois.bandwidth()/1.2);
+      .attr("height", y_mois.bandwidth()/1.2)
+    	.on('mousemove', function(d) {
+        	var mouse = d3.mouse(svg.node()).map(function(d) {
+            return parseInt(d);
+          })
+          tooltip.classed('hidden', false)
+            			.attr('style', 'left:' + (mouse[0] + 30) + 'px; top:' + (mouse[1]) + 'px')
+            			.html(d.mois+"<br>"+ Arrondi(d.distance) + " km"+"<br>"+Arrondi1(d.distance/164)+" Lyon-Clermont-Ferrand")
+     })
+        					.on('mouseout', function() {
+        	tooltip.classed('hidden', true);
+          });
 }
       
 function size_montpellier() {
-x.domain([1,100])
     svg.selectAll(".bar")
       .attr("class", "bar")
-    	.style("fill", "grey")
+    	.style("fill", "blue")
       .attr('transform','translate(70,' + 0 + ')')
-      .attr("width", function(d) {return x(d.distance)*100/301; } )
+      .attr("width", function(d) {return x(d.distance)/301; } )
       .attr("y", function(d) { return y_mois(d.mois); })
-      .attr("height", y_mois.bandwidth()/1.2);
+      .attr("height", y_mois.bandwidth()/1.2)
+    	.on('mousemove', function(d) {
+        	var mouse = d3.mouse(svg.node()).map(function(d) {
+            return parseInt(d);
+          })
+          tooltip.classed('hidden', false)
+            			.attr('style', 'left:' + (mouse[0] + 30) + 'px; top:' + (mouse[1]) + 'px')
+            			.html(d.mois+"<br>"+ Arrondi(d.distance) + " km"+"<br>"+Arrondi1(d.distance/301)+" Lyon-Montpellier")
+     })
+        					.on('mouseout', function() {
+        	tooltip.classed('hidden', true);
+          });
 }
- 		 svg.append('g') //groupe dans lequel on met tout pour créer un axe
-  	.attr('transform', 'translate(70,' + 213 + ')') //positions (x,y)
+      
+     svg.append('g') //groupe dans lequel on met tout pour créer un axe
+  	.attr('transform', 'translate(70,' + 400 + ')') //positions (x,y)
   	.attr('class', 'x axis')
   	.call(xAxis)
- 
     
      svg.append('g') //groupe dans lequel on met tout pour créer un axe
     .attr('transform','translate(70,' + 0 + ')')
   	.attr('class', 'y axis')
   	.call(MoisAxis)
  
+
 // définition des relations label/fonction
 d3.select("input[value=\"all\"]").on("click", draw_all);
 d3.select("input[value=\"seize\"]").on("click", draw_seize);
@@ -168,6 +220,7 @@ d3.select("input[value=\"dix_neuf\"]").on("click", draw_neuf);
 d3.select("input[value=\"saint_etienne\"]").on("click", size_stetienne);
 d3.select("input[value=\"clermont_ferrand\"]").on("click", size_clermontferrand);
 d3.select("input[value=\"montpellier\"]").on("click", size_montpellier);
+
    
     }); 
   </script>
