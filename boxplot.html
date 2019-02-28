@@ -32,11 +32,18 @@
     
   	var margin = {top: 20, right: 10, bottom: 20, left: 20};
     
-		var width = 960 - margin.left - margin.right,
-    		height = 500 - margin.top - margin.bottom;
+		var width = 450 - margin.left - margin.right,
+    		height = 250 - margin.top - margin.bottom;
     
     // Transformer la date dans le format conventionnel
     var parseDate = d3.timeParse("%d-%b-%Y %H:%M");
+    
+    
+    // Traduction du jour de la semaine en français
+    dictSemaine = {'Sunday':'Dimanche','Monday':'Lundi','Tuesday':'Mardi','Wednesday':'Mercredi','Thursday':'Jeudi','Friday':'Vendredi','Saturday':'Samedi'};
+    
+    // Traduction du mois en français
+    dictMois = {'January':'Janvier','February':'Février','March':'Mars','April':'Avril','May':'Mai','June':'Juin','July':'Juillet','August':'Août','September':'Septembre','October':'Octobre','November':'Novembre','December':'Décembre'};
     
     // Récupérer l'année, le mois, le jour de la semaine 
     var formatAnnee = d3.timeFormat("%Y");
@@ -58,9 +65,9 @@
       
       d.Date = parseDate(d.Start);
       d.Steps = +d['Steps (count)']
-      d.Mois = formatMois(d.Date);
+      d.Mois = dictMois[formatMois(d.Date)];
       d.Annee = formatAnnee(d.Date); 
-      d.Jour = formatJourSemaine(d.Date);
+      d.Jour = dictSemaine[formatJourSemaine(d.Date)];
       d.NumJour = formatJour(d.Date);
       
     })  
@@ -295,7 +302,7 @@
       // Ajout de l'axe des x
      svg.append("g")
       .attr("class", "x axis")
-      .attr("transform", "translate(0," + 440 + ")")
+      .attr("transform", "translate(0," + 190 + ")")
       .call(xAxis);
 
     // Ajout de l'axe des y
