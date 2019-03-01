@@ -60,18 +60,16 @@ Extraction depuis les applications mobiles (santé sur IOS) : fichiers xml récu
  
  Treemap :
  
- * Descriptions des visualisations et caractéristiques :
+ * Descriptions des visualisations et de leurs caractéristiques :
  
  <b>Scatterplot : contextualisation des données en calories brûlées et exercices</b>
  
- Exemple en photo ci-dessous:
   <img src="Scatterplot1.png" alt="">
   <img src="Scatterplot2.png" alt="">
   <img src="Scatterplot3.png" alt="">
   
- Barchart : contextualisation des données en distances parcourues
+ <b>Barchart : contextualisation des données en distances parcourues</b>
   
- Exemple en photo ci-dessous:
   <img src="Barchart1.png" alt="">
   <img src="Barchart2.png" alt="">
   <img src="Barchart3.png" alt="">
