@@ -16,15 +16,23 @@
         border-radius: 2px;
         opacity: 0.9;
         position: absolute;
-      }  
+    	}  
     
     .hidden {
         display: none;
-      }
+    	}
   </style>
 </head>
 
 <body>
+    <form>
+  	Année :
+    <label><input type="checkbox" id="check16" > 2016</label>
+      <label><input type="checkbox" id="check17" checked = "checked"> 2017</label>
+    <label><input type="checkbox" id="check18" checked = "checked"> 2018</label>
+    <label><input type="checkbox" id="check19" > 2019</label>  
+  </form>
+  
     <form>
   Nombre de pas :
       <label><input type="radio" name="steps" value="nosteps" checked> Aucun</label>
@@ -44,10 +52,10 @@
   </form>
   <script>
     
-  var margin = {top: 20, right: 10, bottom: 20, left: 20};
+	var margin = {top: 20, right: 10, bottom: 20, left: 20};
     
-  var tooltip = d3.select("body").append("div") 
-      .attr("class", "tooltip")       
+ 	var tooltip = d3.select("body").append("div") 
+    	.attr("class", "tooltip")       
       .style("opacity", 0);
     
    
@@ -66,39 +74,58 @@
    var formatJour = d3.timeFormat("%d");
 
     
-  var width = 100 - margin.left - margin.right,
-    height = 100 - margin.top - margin.bottom;
+	var width = 960 - margin.left - margin.right,
+    height = 500 - margin.top - margin.bottom;
     
-  var svg = d3.select("body").append("svg")
-    .attr("width", width + margin.left + margin.right)
-    .attr("height", height + margin.top + margin.bottom)
-    .append("g")
-    .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
-    // parse the date / time
-    var parseDate = d3.timeParse("%d-%b-%Y %H:%M"); //pour convertir dans le format date
+	var svg = d3.select("body").append("svg")
+		.attr("width", width + margin.left + margin.right)
+		.attr("height", height + margin.top + margin.bottom)
+		.append("g")
+		.attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+  	// parse the date / time
+		var parseDate = d3.timeParse("%d-%b-%Y %H:%M"); //pour convertir dans le format date
     
     //2. Générer les données
-    d3.csv('https://raw.githubusercontent.com/celine-d/PasAPas/master/Health%20Data_jour.csv',function(error,data){
-      data.forEach(function(d){
+    d3.csv('https://raw.githubusercontent.com/celine-d/PasAPas/master/Health%20Data_jour.csv',function(error,rawdata){
+      rawdata.forEach(function(d){
         d.start=parseDate(d.Start); //mettre sous une forme de date année les données
-        d.steps=+d["Steps (count)"]; //mettre sous forme de nombre les prix
+        d.steps=+d["Steps (count)"]; 
       });
+     
+function isInArray(value,array){
+  k=false;
+  Array.from(array).forEach(function(d){
+    if (d==value){
+      k=true;
+    }
+  })
+ 	return(k)
+}
       
+    //Tracé initial de la visualisation
+function trace_visualisation(array){
+  
+  	svg.selectAll('*').remove();
+  	
+  	data=rawdata.filter(function(d,i){return isInArray(+formatAnnee(d.start),array)})
+    
+    console.log(rawdata)
+    
     var x=d3.scaleTime()
     .domain(d3.extent(data,function(data){return data.start;})) //date en x
     .range([40,width-margin.left])//sur espace graphique
     
     var y=d3.scaleLinear() //fonction de correspondance entre deux rangs de valeurs
     .domain([d3.min(data,function(data){return data.steps;}),d3.max(data,function(data){return data.steps;})]) //données de prix en y
-    .range([400,0])//espace sur l'écran que l'on veut occuper
+    .range([height-80,0])//espace sur l'écran que l'on veut occuper
     
     var xAxis = d3.axisBottom()
-    .scale(x)
+  	.scale(x)
     .tickFormat(function(d){
      return dictMois[formatMois(d)]+' '+formatAnnee(d);}); 
     
     var yAxis = d3.axisLeft()
-    .scale(y);
+  	.scale(y);
       
     var color = d3.scaleOrdinal(d3.schemeCategory10) // échelle de couleur
      svg.selectAll(".dot")
@@ -106,21 +133,44 @@
     .enter().append("circle")
       .style("fill", "orange")
       .attr("class", "dot")
-      .attr("r", 2.4)
+     	.attr("r", 2.4)
       .attr("cx", function(d) { return x(d.start); })
       .attr("cy", function(d) { return y(d.steps); }) 
       .on('mousemove', function(d) {
-          var mouse = d3.mouse(svg.node()).map(function(d) {
+        	var mouse = d3.mouse(svg.node()).map(function(d) {
             return parseInt(d);
           })
           tooltip.classed('hidden', false)
-                  .attr('style', 'left:' + (mouse[0] + 30) + 'px; top:' + (mouse[1]) + 'px')
-                  .html(formatJour(d.start) +" "+ dictMois[formatMois(d.start)]+" "+ formatAnnee(d.start) +"<br>"+ Arrondi(d.steps) + " pas")
+            			.attr('style', 'left:' + (mouse[0] + 30) + 'px; top:' + (mouse[1]) + 'px')
+            			.html(formatJour(d.start) +" "+ dictMois[formatMois(d.start)]+" "+ formatAnnee(d.start) +"<br>"+ Arrondi(d.steps) + " pas")
      })
-                  .on('mouseout', function() {
-          tooltip.classed('hidden', true);
+        					.on('mouseout', function() {
+        	tooltip.classed('hidden', true);
           });
-  
+     
+  svg.append('g') //groupe dans lequel on met tout pour créer un axe
+  	.attr('transform', 'translate(0,' + 380 + ')') //positions (x,y)
+  	.attr('class', 'x axis')
+  	.call(xAxis)
+    
+    svg.append("text")             
+     .attr("x", width-margin.left+5)
+     .attr("y", height-60 )
+     .text("Date")
+    
+    svg.append('g') //groupe dans lequel on met tout pour créer un axe
+    .attr('transform','translate(40,' + 0 + ')')
+  	.attr('class', 'y axis')
+  	.call(yAxis)
+    
+    svg.append("text")
+     .attr("transform", "rotate(-90)")
+     .attr("y", 0 - margin.left)
+     .attr("x",0 - (height / 2))
+     .attr("dy", "1em")
+     .text("Nombre de pas")
+}
+      
 function color_normal() {
  svg.selectAll(".dot")
       .data(data)
@@ -132,7 +182,7 @@ function color_five() {
       .data(data)
 .style("fill", function(d) {
             if (d.steps <= 5000) {return "red"}
-            else  { return "green" }
+            else 	{ return "green" }
         ;})
 }
       
@@ -141,7 +191,7 @@ function color_seven() {
       .data(data)
 .style("fill", function(d) {
             if (d.steps <= 7500) {return "red"}
-            else  { return "green" }
+            else 	{ return "green" }
         ;})
 }
 
@@ -150,7 +200,7 @@ function color_ten() {
       .data(data)
 .style("fill", function(d) {
             if (d.steps <= 10000) {return "red"}
-            else  { return "green" }
+            else 	{ return "green" }
         ;})
 }
 
@@ -159,7 +209,7 @@ function color_fifteen() {
       .data(data)
 .style("fill", function(d) {
             if (d.steps <= 15000) {return "red"}
-            else  { return "green" }
+            else 	{ return "green" }
         ;})
 
 }
@@ -167,17 +217,17 @@ function color_fifteen() {
 function size_noref() {
   svg.selectAll(".dot")
       .data(data)
-      .attr("r", 2.4)
-      .on('mousemove', function(d) {
-          var mouse = d3.mouse(svg.node()).map(function(d) {
+  		.attr("r", 2.4)
+  		.on('mousemove', function(d) {
+        	var mouse = d3.mouse(svg.node()).map(function(d) {
             return parseInt(d);
           })
           tooltip.classed('hidden', false)
-                  .attr('style', 'left:' + (mouse[0] + 30) + 'px; top:' + (mouse[1]) + 'px')
-                  .html(formatJour(d.start) +" "+dictMois[formatMois(d.start)]+" "+ formatAnnee(d.start) +"<br> "+ Arrondi(d.steps) + " pas")
+            			.attr('style', 'left:' + (mouse[0] + 30) + 'px; top:' + (mouse[1]) + 'px')
+            			.html(formatJour(d.start) +" "+dictMois[formatMois(d.start)]+" "+ formatAnnee(d.start) +"<br> "+ Arrondi(d.steps) + " pas")
      })
-                  .on('mouseout', function() {
-          tooltip.classed('hidden', true);
+        					.on('mouseout', function() {
+        	tooltip.classed('hidden', true);
           });
   
 }      
@@ -189,15 +239,15 @@ function size_coke() {
   .data(data)
   .attr("r", function(d){return d.nb_coke*2})
   .on('mousemove', function(d) {
-          var mouse = d3.mouse(svg.node()).map(function(d) {
+        	var mouse = d3.mouse(svg.node()).map(function(d) {
             return parseInt(d);
           })
           tooltip.classed('hidden', false)
-                  .attr('style', 'left:' + (mouse[0] + 30) + 'px; top:' + (mouse[1]) + 'px')
-                  .html(formatJour(d.start) +" "+ dictMois[formatMois(d.start)]+" "+ formatAnnee(d.start) +"<br>"+ Arrondi(d.steps) + " pas"+"<br>"+Arrondi1(d.nb_coke)+ " canette(s) de Coca-Cola")
+            			.attr('style', 'left:' + (mouse[0] + 30) + 'px; top:' + (mouse[1]) + 'px')
+            			.html(formatJour(d.start) +" "+ dictMois[formatMois(d.start)]+" "+ formatAnnee(d.start) +"<br>"+ Arrondi(d.steps) + " pas"+"<br>"+Arrondi1(d.nb_coke)+ " canette(s) de Coca-Cola")
      })
-                  .on('mouseout', function() {
-          tooltip.classed('hidden', true);
+        					.on('mouseout', function() {
+        	tooltip.classed('hidden', true);
           });
   
   
@@ -209,17 +259,17 @@ function size_bigmac() {
     d.nb_bigmac=d.steps/14371;})
      svg.selectAll(".dot")
      .data(data)
-     .attr("r", function(d){return d.nb_bigmac*3})
+ 		 .attr("r", function(d){return d.nb_bigmac*3})
      .on('mousemove', function(d) {
-          var mouse = d3.mouse(svg.node()).map(function(d) {
+        	var mouse = d3.mouse(svg.node()).map(function(d) {
             return parseInt(d);
           })
           tooltip.classed('hidden', false)
-                  .attr('style', 'left:' + (mouse[0] + 30) + 'px; top:' + (mouse[1]) + 'px')
-                  .html(formatJour(d.start) +" "+ dictMois[formatMois(d.start)]+" "+ formatAnnee(d.start) +"<br>"+ Arrondi(d.steps) + " pas"+"<br>"+Arrondi1(d.nb_bigmac)+ " Big Mac(s)")
+            			.attr('style', 'left:' + (mouse[0] + 30) + 'px; top:' + (mouse[1]) + 'px')
+            			.html(formatJour(d.start) +" "+ dictMois[formatMois(d.start)]+" "+ formatAnnee(d.start) +"<br>"+ Arrondi(d.steps) + " pas"+"<br>"+Arrondi1(d.nb_bigmac)+ " Big Mac(s)")
      })
-                  .on('mouseout', function() {
-          tooltip.classed('hidden', true);
+        					.on('mouseout', function() {
+        	tooltip.classed('hidden', true);
           });
   
 }
@@ -231,15 +281,15 @@ function size_boxe() {
   .data(data)
   .attr("r", function(d){return d.nb_boxe*0.2})
   .on('mousemove', function(d) {
-          var mouse = d3.mouse(svg.node()).map(function(d) {
+        	var mouse = d3.mouse(svg.node()).map(function(d) {
             return parseInt(d);
           })
           tooltip.classed('hidden', false)
-                  .attr('style', 'left:' + (mouse[0] + 30) + 'px; top:' + (mouse[1]) + 'px')
-                  .html(formatJour(d.start) +" "+ dictMois[formatMois(d.start)]+" "+ formatAnnee(d.start) +"<br>"+ Arrondi(d.steps) + " pas"+"<br>"+Arrondi(d.nb_boxe)+ " minutes de boxe")
+            			.attr('style', 'left:' + (mouse[0] + 30) + 'px; top:' + (mouse[1]) + 'px')
+            			.html(formatJour(d.start) +" "+ dictMois[formatMois(d.start)]+" "+ formatAnnee(d.start) +"<br>"+ Arrondi(d.steps) + " pas"+"<br>"+Arrondi(d.nb_boxe)+ " minutes de boxe")
      })
-                  .on('mouseout', function() {
-          tooltip.classed('hidden', true);
+        					.on('mouseout', function() {
+        	tooltip.classed('hidden', true);
           });
   
   
@@ -252,43 +302,61 @@ function size_swim() {
      d3.select("input[value=\"nofood\"]").attr('checked','true')
      svg.selectAll(".dot")
      .data(data)
-     .attr("r", function(d){return d.nb_swim*0.08})
+ 		 .attr("r", function(d){return d.nb_swim*0.08})
      .on('mousemove', function(d) {
-          var mouse = d3.mouse(svg.node()).map(function(d) {
+        	var mouse = d3.mouse(svg.node()).map(function(d) {
             return parseInt(d);
           })
           tooltip.classed('hidden', false)
-                  .attr('style', 'left:' + (mouse[0] + 30) + 'px; top:' + (mouse[1]) + 'px')
-                  .html(formatJour(d.start) +" "+ dictMois[formatMois(d.start)]+" "+ formatAnnee(d.start) +"<br>"+ Arrondi(d.steps) + " pas"+"<br>"+Arrondi(d.nb_swim)+ " minutes de nage lente")
+            			.attr('style', 'left:' + (mouse[0] + 30) + 'px; top:' + (mouse[1]) + 'px')
+            			.html(formatJour(d.start) +" "+ dictMois[formatMois(d.start)]+" "+ formatAnnee(d.start) +"<br>"+ Arrondi(d.steps) + " pas"+"<br>"+Arrondi(d.nb_swim)+ " minutes de nage lente")
      })
-                  .on('mouseout', function() {
-          tooltip.classed('hidden', true);
+        					.on('mouseout', function() {
+        	tooltip.classed('hidden', true);
           });
   
 }
-    svg.append('g') //groupe dans lequel on met tout pour créer un axe
-    .attr('transform', 'translate(0,' + 400 + ')') //positions (x,y)
-    .attr('class', 'x axis')
-    .call(xAxis)
-    
-    svg.append("text")             
-     .attr("x", width-margin.left+5)
-     .attr("y", 400 )
-     .text("Date")
-    
-    svg.append('g') //groupe dans lequel on met tout pour créer un axe
-    .attr('transform','translate(40,' + 0 + ')')
-    .attr('class', 'y axis')
-    .call(yAxis)
-    
-    svg.append("text")
-     .attr("transform", "rotate(-90)")
-     .attr("y", 0 - margin.left)
-     .attr("x",0 - (height / 2))
-     .attr("dy", "1em")
-     .text("Nombre de pas")
+      
+array=[2017,2018]
+trace_visualisation(array)
+
+function update(){
+  array=[];
+  if (d3.select("#check16").property("checked")){
+    array.push(2016)
+  }
+  if (d3.select("#check17").property("checked")){
+    array.push(2017)
+  }
+  if (d3.select("#check18").property("checked")){
+    array.push(2018)
+  }
+  if (d3.select("#check19").property("checked")){
+    array.push(2019)
+  }  
+  trace_visualisation(array)
+  if (d3.select("#nosteps").property("selected")){
+    color_normal
+  }
+  if (d3.select("#five_steps").property("selected")){
+    color_five
+  }
+  if (d3.select("#seven_steps").property("selected")){
+    color_seven
+  }
+  if (d3.select("#ten_steps").property("selected")){
+    color_ten
+  }
+  d3.select("input[value=\"fifteen_steps\"]").on("checked", color_fifteen);
+}
+
+//console.log(d3.select("input[name=\"steps\"]:checked")[0][0].value )
 
 // définition des relations label/fonction
+d3.select("#check16").on("change",update);
+d3.select("#check17").on("change",update);
+d3.select("#check18").on("change",update);
+d3.select("#check19").on("change",update);
 d3.select("input[value=\"nosteps\"]").on("click", color_normal);
 d3.select("input[value=\"five_steps\"]").on("click", color_five);
 d3.select("input[value=\"seven_steps\"]").on("click", color_seven);
