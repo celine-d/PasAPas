@@ -64,15 +64,15 @@ Extraction depuis les applications mobiles (santé sur IOS) : fichiers xml récu
  
  <b>Scatterplot : contextualisation des données en calories brûlées et exercices</b>
  
-  <img src="Scatterplot1.png" alt="" width=600 height=300>
-  <img src="Scatterplot2.png" alt="">
-  <img src="Scatterplot3.png" alt="">
+  <img src="Scatterplot1.png" alt="" aligh="center" width=600 height=300>
+  <img src="Scatterplot2.png" alt="" aligh="center" width=600 height=300>
+  <img src="Scatterplot3.png" alt="" aligh="center" width=600 height=300>
   
  <b>Barchart : contextualisation des données en distances parcourues</b>
   
-  <img src="Barchart1.png" alt="">
-  <img src="Barchart2.png" alt="">
-  <img src="Barchart3.png" alt="">
+  <img src="Barchart1.png" alt="" aligh="center" width=600 height=300>
+  <img src="Barchart2.png" alt="" aligh="center" width=600 height=300>
+  <img src="Barchart3.png" alt="" aligh="center" width=600 height=300>
   
   
  * Notre site:
