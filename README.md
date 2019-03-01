@@ -55,4 +55,4 @@ Extraction depuis les applications mobiles (santé sur IOS) : fichiers xml récu
  
  Contenu Bootstrap
  <br> Cours de visualisation 2018 : https://github.com/LyonDataViz/MOS5.5-Dataviz
- <br> http://www.fitmania.fr/10-000-pas-par-jour-pour-rester-en-forme/ https://www.sciencepresse.qc.ca/actualite/detecteur-rumeurs/2017/09/20/marcher-10-000-jour-pour-tenir-forme-vrai
+ <br> Références de marche: http://www.fitmania.fr/10-000-pas-par-jour-pour-rester-en-forme/  <br> https://www.sciencepresse.qc.ca/actualite/detecteur-rumeurs/2017/09/20/marcher-10-000-jour-pour-tenir-forme-vrai
