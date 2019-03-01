@@ -32,24 +32,24 @@
     <label><input type="checkbox" id="check18" checked = "checked"> 2018</label>
     <label><input type="checkbox" id="check19" > 2019</label>  
   </form>
+    Nombre de pas :
+  <select id = steps>
+  <option value="nosteps">Aucun</option>
+  <option value="five_steps">5 000 pas : faiblement actif </option>
+  <option value="seven_steps">7 500 pas : modérément actif</option>
+  <option value="ten_steps">10 000 pas : recommandation santé</option>
+  <option value="fifteen_steps">15 000 pas</option>
+</select>
   
-    <form>
-  Nombre de pas :
-      <label><input type="radio" name="steps" value="nosteps" checked> Aucun</label>
-    <label><input type="radio" name="steps" value="five_steps"> 5 000 pas : faiblement actif </label>
-      <label><input type="radio" name="steps" value="seven_steps"> 7 500 pas : modérément actif </label>
-    <label><input type="radio" name="steps" value="ten_steps" > 10 000 pas : recommandation santé</label>
-    <label><input type="radio" name="steps" value="fifteen_steps"> 15 000 pas</label>  
-  </form>
+     Référence :
+  <select id = ref>
+  <option value="noref">Aucune</option>
+  <option value="big_mac">en Big Mac : 503 kcal </option>
+  <option value="coke">en canette de Coca-Cola (330mL) : 139 kcal</option>
+  <option value="boxe">en minute(s) de boxe : 300 pas</option>
+  <option value="swim">en minute(s) de nage lente : 100 pas</option>
+</select>
 
-  <form>
-  Référence :
-    <label><input type="radio" name="ref" value="noref" checked> Aucune</label>
-    <label><input type="radio" name="ref" value="big_mac" > en Big Mac : 503 kcal</label>
-    <label><input type="radio" name="ref" value="coke"> en canette de Coca-Cola (330mL) : 139 kcal</label>
-    <label><input type="radio" name="ref" value="boxe"> en minute(s) de boxe : 300 pas</label>
-    <label><input type="radio" name="ref" value="swim" > en minute(s) de nage lente : 100 pas</label>
-  </form>
   <script>
     
 	var margin = {top: 20, right: 10, bottom: 20, left: 20};
@@ -72,7 +72,9 @@
    var formatAnnee = d3.timeFormat("%Y");
    var formatMois = d3.timeFormat("%B");
    var formatJour = d3.timeFormat("%d");
-
+	
+    var steps='nosteps';
+    var ref='noref';
     
 	var width = 960 - margin.left - margin.right,
     height = 500 - margin.top - margin.bottom;
@@ -109,15 +111,13 @@ function trace_visualisation(array){
   	
   	data=rawdata.filter(function(d,i){return isInArray(+formatAnnee(d.start),array)})
     
-    console.log(rawdata)
-    
     var x=d3.scaleTime()
     .domain(d3.extent(data,function(data){return data.start;})) //date en x
     .range([40,width-margin.left])//sur espace graphique
     
     var y=d3.scaleLinear() //fonction de correspondance entre deux rangs de valeurs
     .domain([d3.min(data,function(data){return data.steps;}),d3.max(data,function(data){return data.steps;})]) //données de prix en y
-    .range([height-80,0])//espace sur l'écran que l'on veut occuper
+    .range([height-40,0])//espace sur l'écran que l'on veut occuper
     
     var xAxis = d3.axisBottom()
   	.scale(x)
@@ -149,13 +149,13 @@ function trace_visualisation(array){
           });
      
   svg.append('g') //groupe dans lequel on met tout pour créer un axe
-  	.attr('transform', 'translate(0,' + 380 + ')') //positions (x,y)
+  	.attr('transform', 'translate(0,' + 420 + ')') //positions (x,y)
   	.attr('class', 'x axis')
   	.call(xAxis)
     
     svg.append("text")             
      .attr("x", width-margin.left+5)
-     .attr("y", height-60 )
+     .attr("y", height-25 )
      .text("Date")
     
     svg.append('g') //groupe dans lequel on met tout pour créer un axe
@@ -335,39 +335,46 @@ function update(){
     array.push(2019)
   }  
   trace_visualisation(array)
-  if (d3.select("#nosteps").property("selected")){
-    color_normal
-  }
-  if (d3.select("#five_steps").property("selected")){
-    color_five
-  }
-  if (d3.select("#seven_steps").property("selected")){
-    color_seven
-  }
-  if (d3.select("#ten_steps").property("selected")){
-    color_ten
-  }
-  d3.select("input[value=\"fifteen_steps\"]").on("checked", color_fifteen);
+  if (steps=='nosteps'){
+    color_normal();
+  }  
+  if (steps=='five_steps'){
+    color_five();
+  }  
+   if (steps=='ten_steps'){
+    color_ten();
+  }  
+   if (steps=='seven_steps'){
+    color_seven();
+  }  
+   if (steps=='fifteen_steps'){
+    color_fifteen();
+  } 
+  if (ref=='noref'){
+    size_noref();
+  }  
+  if (ref=='big_mac'){
+    size_bigmac();
+  }  
+   if (ref=='coke'){
+    size_coke();
+  }  
+   if (ref=='boxe'){
+    size_boxe();
+  }  
+   if (ref=='swim'){
+    size_swim();
+  }  
 }
-
-//console.log(d3.select("input[name=\"steps\"]:checked")[0][0].value )
 
 // définition des relations label/fonction
 d3.select("#check16").on("change",update);
 d3.select("#check17").on("change",update);
 d3.select("#check18").on("change",update);
 d3.select("#check19").on("change",update);
-d3.select("input[value=\"nosteps\"]").on("click", color_normal);
-d3.select("input[value=\"five_steps\"]").on("click", color_five);
-d3.select("input[value=\"seven_steps\"]").on("click", color_seven);
-d3.select("input[value=\"ten_steps\"]").on("click", color_ten);
-d3.select("input[value=\"fifteen_steps\"]").on("click", color_fifteen);
-d3.select("input[value=\"noref\"]").on("click", size_noref);
-d3.select("input[value=\"big_mac\"]").on("click", size_bigmac);
-d3.select("input[value=\"coke\"]").on("click", size_coke);
-d3.select("input[value=\"boxe\"]").on("click", size_boxe);
-d3.select("input[value=\"swim\"]").on("click", size_swim);
-   
+d3.select("#steps").on("change",function(){steps=d3.select(this).property("value"); update()})      
+d3.select("#ref").on("change",function(){ref=d3.select(this).property("value"); update()})      
+            
     }); 
   </script>
 </body>
