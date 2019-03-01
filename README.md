@@ -65,7 +65,7 @@ Extraction depuis les applications mobiles (santé sur IOS) : fichiers xml récu
  <b>Scatterplot : contextualisation des données en calories brûlées et exercices</b>
  
  Cette visualisation représente le nombre de pas effectués en fonction de la date. 
- Tout d'abord, en haut, il est possible de cocher les années que vous souhaitez voir apparaître. Ici sur l'exemple ce sont 2017 et 2018.
+ Tout d'abord, en haut, il est possible de cocher les années que l'utilisateur souhaite voir apparaître. Ici, sur l'exemple, ce sont 2017 et 2018.
   <img src="Scatterplot1.png" alt="" width=600 height=300>
   
   Cette visualisation permet surtout de contextualiser les données. En premier, après "nombre de pas :", l'utilisateur peut cocher le nombre de pas référence qu'il souhaite. Ainsi, les points changent de couleur et sont en rouge si le nombre de pas est inférieur à la référence cochée et en vert s'il est supérieur. Ici, sur l'exemple le nombre de pas coché était de 7 500 pas correspondant à une personne modérément active. 
