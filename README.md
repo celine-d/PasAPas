@@ -62,7 +62,7 @@ Extraction depuis les applications mobiles (santé sur IOS) : fichiers xml récu
  
  * Descriptions des visualisations et caractéristiques :
  
- Scatterplot : contextualisation des données en calories brûlées et exercices
+ <b>Scatterplot : contextualisation des données en calories brûlées et exercices</b>
  
  Exemple en photo ci-dessous:
   <img src="Scatterplot1.png" alt="">
