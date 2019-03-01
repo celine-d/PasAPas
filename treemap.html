@@ -1,1 +1,350 @@
 
+<!DOCTYPE html>
+<head>
+  <meta charset="utf-8">
+  <script src="https://d3js.org/d3.v4.min.js"></script>
+  <style>
+    body { margin:0;position:fixed;top:0;right:0;bottom:0;left:0; }
+    	rect:hover {
+        fill: #fcfcfc;
+        opacity : 0.6;
+      }
+    	.hidden {
+        display: none;
+    	}
+   		div.tooltip {
+        color: #222;
+        background-color: #fff;
+        padding: .5em;
+        text-shadow: #f5f5f5 0 1px 0;
+        border-radius: 2px;
+        opacity: 0.9; 
+        position: absolute;
+    	}  
+  </style>
+</head>
+
+<body> 
+  
+  <form>
+  	Année :
+    <label><input type="checkbox" id="check16"> 2016</label>
+      <label><input type="checkbox" id="check17" checked = "checked"> 2017</label>
+    <label><input type="checkbox" id="check18" checked = "checked"> 2018</label>
+    <label><input type="checkbox" id="check19"> 2019</label>  
+  </form>
+    
+  <script>
+    
+  	var margin = {top: 20, right: 10, bottom: 20, left: 20};
+    
+		var width = 960 - margin.left - margin.right,
+    		height = 500 - margin.top - margin.bottom;
+    
+    var format = d3.format(",d");
+
+    // Transformer la date dans le format conventionnel
+    var parseDate = d3.timeParse("%d-%b-%Y %H:%M");
+    
+    // Récupérer l'année, le mois, le jour de la semaine 
+    var formatAnnee = d3.timeFormat("%Y");
+    var formatMois = d3.timeFormat("%B");
+    var formatJour = d3.timeFormat("%d");
+    var formatJourSemaine = d3.timeFormat("%A");
+    
+    var locale = d3.formatLocale({
+  		decimal: ",",
+  		thousands: " ",
+  		grouping: [3]
+		});
+    
+    var Arrondi = locale.format(",.0f");
+    
+    var Pourcentage = d3.format(".0%");
+    
+    // Tooltip
+    var tooltip = d3.select("body").append("div") 
+    	.attr("class", "tooltip")       
+      .style("opacity", 0);
+    
+		// Variables utiles pour la création du treemap
+    
+    var stratify = d3.stratify()
+    .parentId(function(d) {return d.id.substring(0, d.id.lastIndexOf(".")); });
+
+		var treemap = d3.treemap()
+    .size([width, height])
+    .padding(2)
+    .round(true);
+    
+    // Création du SVG
+    var svg = d3.select("body").append("svg")
+        .attr("width", width + margin.left + margin.right)
+        .attr("height", height + margin.top + margin.bottom)
+      .append("g")
+        .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+    
+    d3.csv('https://raw.githubusercontent.com/celine-d/PasAPas/master/Health%20Data_jour.csv', function(data) { 
+    
+    data.forEach(function(d, i){
+      
+      d.Date = parseDate(d.Start);
+      d.Steps = +d['Steps (count)']; 
+      d.Mois = formatMois(d.Date);
+      d.Annee = formatAnnee(d.Date); 
+      d.NumJour = formatJour(d.Date);
+ 
+      // Définition des saisons
+      
+      if (d.Date <= parseDate("21-Mar-"+d.Annee+" 00:00"))   
+        d.Saison = 'Hiver';
+    
+      else if (d.Date <= parseDate("21-Jun-"+d.Annee+" 00:00"))   
+        d.Saison = 'Printemps';
+        
+      else if (d.Date <= parseDate("21-Sep-"+d.Annee+" 00:00"))   
+        d.Saison = 'Été';
+      
+      else if (d.Date <= parseDate("21-Dec-"+d.Annee+" 00:00"))   
+        d.Saison = 'Automne';
+         
+      else
+        d.Saison = 'Hiver';
+      
+    })
+    
+    
+    // Regroupement des données par année puis saison
+    var raw_nested = d3.nest()
+    		.key(function(d){ return d.Annee; })
+				.key(function(d){ return d.Saison; })
+				.entries(data); 
+     
+   function isInArray(value,array){
+      k = false;
+      Array.from(array).forEach(function(d){
+        if (d == value){
+          k = true;
+        }
+      })
+      return (k)
+    }
+     
+   // Fonction permettant de tracer le treemap en fonction des années sélectionnées
+      
+   function treemap_function(array){
+     
+     svg.selectAll("*").remove();
+     
+    // Filtre sur les années sélectionnées
+    nested = raw_nested.filter(function(d){return isInArray(+d.key, array)});
+
+    data_tree = [];
+    obj = {};
+    obj.id = "data";
+    obj.value = 0;
+    data_tree.push(obj);
+      
+    nested.forEach(function(d,i){
+      	var annee = d.key;
+      	obj = {};
+      	obj.id = "data."+annee;
+      	obj.value = 0;
+      	data_tree.push(obj);
+        newdata = d.values;
+      	newdata.forEach(function(e,j){
+          obj = {};
+          var saison = e.key;
+          newdata2 = e.values;
+          obj.id = "data."+annee+"."+saison;
+          obj.value = d3.sum(newdata2, function(f) {
+  					return f.Steps;})
+          data_tree.push(obj)
+					})
+        });
+
+      var root = stratify(data_tree)
+      .sum(function(d) { return d.value; })
+      .sort(function(a, b) { return b.height - a.height || b.value - a.value; });
+      
+       treemap(root);
+
+			 var x = d3.scaleLinear()
+            .domain([0, width])
+            .range([0, width]);
+      
+        var y = d3.scaleLinear()
+            .domain([0, height])
+            .range([0, height]);
+ 
+      var feuilles = root.leaves();
+      feuilles.forEach(function(d){
+        d.year = d.id.substring(d.id.lastIndexOf(".")-4, d.id.lastIndexOf("."));
+        d.season = d.id.substring(d.id.lastIndexOf(".") + 1);
+        d.pourcentage = d.value / d.parent.value;
+      })
+			
+      
+      // Définition des échelles de couleurs pour chaque année
+      
+			var color2016 = d3.scaleLinear()
+      	.range(["#ffe6e6","#ff8080"])
+				.domain([d3.min(feuilles, function(d) {if (d.year == 2016) return d.value; }),
+                d3.max(feuilles, function(d) {if (d.year == 2016) return d.value; })]);
+      
+      var color2017 = d3.scaleLinear()
+      .range(["#ccffeb","#2EBA4A"])
+				.domain([d3.min(feuilles, function(d) {if (d.year == 2017) return d.value; }),
+                d3.max(feuilles, function(d) {if (d.year == 2017) return d.value; })]);
+      
+      var color2018 = d3.scaleLinear()
+      	.range(["#cce6ff","#677AFA"])
+				.domain([d3.min(feuilles, function(d) {if (d.year == 2018) return d.value; }),
+                d3.max(feuilles, function(d) {if (d.year == 2018) return d.value; })]);
+      
+      var color2019 = d3.scaleLinear()
+      	.range(["#ffffcc","#ffff66"])
+				.domain([d3.min(feuilles, function(d) {if (d.year == 2019) return d.value; }),
+                d3.max(feuilles, function(d) {if (d.year == 2019) return d.value; })]);
+      
+     // Ajout des rectangles
+      svg.selectAll("rect")
+      .data(feuilles)
+  		.enter().append("rect")
+      .attr("title", function(d) { return d.id + "\n" + format(d.value); })
+      .attr("x", function (d) {return x(d.x0);})
+      .attr("y", function (d) {return y(d.y0);})
+      .attr("width", function (d) {return x(d.x1) - x(d.x0); })
+      .attr("height", function (d) { return y(d.y1) - y(d.y0);})
+      .attr("fill", function (d) {
+        var year = d.id.substring(d.id.lastIndexOf(".")-4, d.id.lastIndexOf("."));
+        if (year == 2016)
+          return color2016(d.value)
+        else if (year == 2017)
+          return color2017(d.value)
+        else if (year == 2018)
+          return color2018(d.value)
+        else if (year == 2019)
+          return color2019(d.value)
+        ;})
+      .on('mousemove',  function(d) {
+        	var mouse = d3.mouse(svg.node()).map(function(d) {
+            return parseInt(d);
+          });
+          tooltip.classed('hidden', false)
+            .attr('style', 'left:' + (mouse[0] + 30) + 'px; top:' + (mouse[1] - 35) + 'px')
+            .html(d.season+" "+d.year+"<br>"+Arrondi(d.value)+" pas"+"<br>"+Pourcentage(d.pourcentage)+" des pas de l'année");
+          })
+        .on('mouseout', function() {
+        	tooltip.classed('hidden', true);
+          });;
+      
+      // Ajout des textes de date
+      var periodeText = svg.selectAll(".periodeText")
+    	.data(feuilles)
+    	.enter()
+    	.append("text")
+      .attr("text-anchor", "middle")
+     	.attr("dominant-baseline", "central")
+     	.attr("x", function(d){ return d.x0 + (d.x1-d.x0)/2})
+     	.attr("y", function(d){ return d.y0 + (d.y1-d.y0)/2 - 20})
+     	.text(function(d){ if (d.x1-d.x0 > 60 && d.y1-d.y0 > 60)
+      {return (d.season+" "+d.year)}})
+     	.attr("class", "periodeText")
+     	.on('mousemove', function(d) {
+        	var mouse = d3.mouse(svg.node()).map(function(d) {
+            return parseInt(d);
+          });
+          tooltip.classed('hidden', false)
+            .attr('style', 'left:' + (mouse[0] + 30) + 'px; top:' + (mouse[1] - 35) + 'px')
+            .html(d.season+" "+d.year+"<br>"+Arrondi(d.value)+" pas"+"<br>"+Pourcentage(d.pourcentage)+" des pas de l'année");
+          })
+        .on('mouseout', function() {
+        	tooltip.classed('hidden', true);
+          });
+      
+     // Ajout des textes de nombres de pas
+     var valueText = svg.selectAll(".valueText")
+     .data(feuilles)
+     .enter()
+     .append("text")
+     .attr("text-anchor", "middle")
+     .attr("dominant-baseline", "central")
+     .attr("x", function(d){ return d.x0 + (d.x1-d.x0)/2})
+     .attr("y", function(d){ return d.y0 + (d.y1-d.y0)/2})
+     .text(function(d){ if (d.x1-d.x0 > 60 && d.y1-d.y0 > 60){
+      {return (Arrondi(d.value)+" pas")}}})
+     .attr("class", "valueText")
+      .on('mousemove', function(d) {
+        	var mouse = d3.mouse(svg.node()).map(function(d) {
+            return parseInt(d);
+          });
+          tooltip.classed('hidden', false)
+            .attr('style', 'left:' + (mouse[0] + 30) + 'px; top:' + (mouse[1] - 35) + 'px')
+            .html(d.season+" "+d.year+"<br>"+Arrondi(d.value)+" pas"+"<br>"+Pourcentage(d.pourcentage)+" des pas de l'année");
+          })
+        .on('mouseout', function() {
+        	tooltip.classed('hidden', true);
+          });
+      
+     // Echelle de taille pour l'affichage des pourcentages
+      var size = d3.scaleLinear()
+      	.range([10,30])
+      	.domain([0,0.5]);
+      
+     // Ajout des textes de pourcentages
+      var pourcentageText = svg.selectAll(".pourcentageText")
+    	.data(feuilles)
+    	.enter()
+    	.append("text")
+      .attr("text-anchor", "middle")
+      .attr("dominant-baseline", "central")
+      .attr("x", function(d){ return d.x0 + (d.x1-d.x0)/2})
+      .attr("y", function(d){ return d.y0 + (d.y1-d.y0)/2 + 20})
+      .text(function(d){ if (d.x1-d.x0 > 60 && d.y1-d.y0 > 60)
+       {return (Pourcentage(d.pourcentage))}})
+      .attr("class", "pourcentageText")
+      .style("font-size", function(d) { if (d.pourcentage < 0.5){return size(d.pourcentage)} else {return 35} + "px"; })
+      .on('mousemove', function(d) {
+        	var mouse = d3.mouse(svg.node()).map(function(d) {
+            return parseInt(d);
+          });
+          tooltip.classed('hidden', false)
+            .attr('style', 'left:' + (mouse[0] + 30) + 'px; top:' + (mouse[1] - 35) + 'px')
+            .html(d.season+" "+d.year+"<br>"+Arrondi(d.value)+" pas"+"<br>"+Pourcentage(d.pourcentage)+" des pas de l'année");
+          })
+        .on('mouseout', function() {
+        	tooltip.classed('hidden', true);
+          });
+   }
+      
+      
+   // Affichage par défaut de toutes les années
+   array = [2017,2018]
+   treemap_function(array)
+   
+   // Mise à jour selon les années sélectionnées
+    function update(){
+     array = [];
+     if(d3.select("#check16").property("checked")){
+       		array.push(2016)
+     }
+      if(d3.select("#check17").property("checked")){
+       		array.push(2017)
+     }
+      if(d3.select("#check18").property("checked")){
+       		array.push(2018)
+     }
+      if(d3.select("#check19").property("checked")){
+       		array.push(2019)
+     }
+     treemap_function(array)};
+    
+    d3.select("#check16").on("change",update);
+    d3.select("#check17").on("change",update);
+    d3.select("#check18").on("change",update);
+    d3.select("#check19").on("change",update);
+    });
+    
+  </script>
+</body>
