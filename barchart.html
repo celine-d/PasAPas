@@ -1,1 +1,291 @@
+<!DOCTYPE html>
+<head>
+  <meta charset="utf-8">
+  <script src="https://d3js.org/d3.v4.min.js"></script>
+  <style>
+    body { margin:0;position:fixed;top:0;right:0;bottom:0;left:0; }
+    
+    path { 
+    fill: none;
+}
+
+   div.tooltip {
+        color: #222;
+        background-color: #fff;
+        padding: .5em;
+        text-shadow: #f5f5f5 0 1px 0;
+        border-radius: 2px;
+        opacity: 0.9;
+        position: absolute;
+    	}  
+    
+    .hidden {
+        display: none;
+    	}
+  </style>
+</head>
+
+<body>
+   <form>
+  	Année :
+    <label><input type="checkbox" id="check16" > 2016</label>
+      <label><input type="checkbox" id="check17" checked = "checked"> 2017</label>
+    <label><input type="checkbox" id="check18" checked = "checked"> 2018</label>
+    <label><input type="checkbox" id="check19" > 2019</label>  
+  </form>
+  
+
+  Distance référence :
+  <select id = distance_ref>
+  <option value="saint_etienne">Lyon-Saint-Étienne : 63 km</option>
+  <option value="clermont_ferrand">Lyon-Clermont-Ferrand : 164 km</option>
+  <option value="montpellier">Lyon-Montpellier : 301 km</option>
+</select>
+
+  <script>
+    
+	var margin = {top: 20, right: 10, bottom: 20, left: 20};
+    
+   	var tooltip = d3.select("body").append("div") 
+    	.attr("class", "tooltip")       
+      .style("opacity", 0);
+  
+    // Traduction du jour de la semaine en français
+    dictSemaine = {'Sunday':'Dimanche','Monday':'Lundi','Tuesday':'Mardi','Wednesday':'Mercredi','Thursday':'Jeudi','Friday':'Vendredi','Saturday':'Samedi'};
+    
+    // Traduction du mois en français
+    dictMois = {'January':'Janvier','February':'Février','March':'Mars','April':'Avril','May':'Mai','June':'Juin','July':'Juillet','August':'Août','September':'Septembre','October':'Octobre','November':'Novembre','December':'Décembre'};
+
+ 
+    var Arrondi = d3.format(".0f"); 
+    var Arrondi1 = d3.format(".1f"); 
+    
+    var distance="saint_etienne"
+        
+    var formatAnnee = d3.timeFormat("%Y");
+    var formatMois = d3.timeFormat("%B");
+    
+	  var width = 960 - margin.left - margin.right,
+    height = 500 - margin.top - margin.bottom;
+    
+	  var svg = d3.select("body").append("svg")
+		.attr("width", width + margin.left + margin.right)
+		.attr("height", height + margin.top + margin.bottom)
+		.append("g")
+		.attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+  	// parse the date / time
+		var parseDate = d3.timeParse("%m_%Y"); //pour convertir dans le format date
+
+    //2. Générer les données
+    d3.csv('https://raw.githubusercontent.com/celine-d/PasAPas/master/Health%20Data_moisdistancetri.csv',function(error,rawdata){
+      rawdata.forEach(function(d){
+        d.mois = parseDate(d.Mois)
+        d.distance=+d.Distance;
+      });
+
+  function isInArray(value,array){
+  k=false;
+  Array.from(array).forEach(function(d){
+    if (d==value){
+      k=true;
+    }
+  })
+ 	return(k)
+}
+     var x = d3.scaleLinear()
+          .range([0, width-70])
+    			.domain([0,5]);
+      
+    	var xAxis=d3.axisBottom()
+    .scale(x);
+      
+      
+   //Tracé initial de la visualisation
+function trace_visualisation(array){
+  
+  	svg.selectAll('*').remove();
+  	
+  	data=rawdata.filter(function(d,i){return isInArray(+formatAnnee(d.mois),array)})
+      
+    var y_mois=d3.scaleTime()
+    .domain(d3.extent(data,function(data){return data.mois;}))
+    .range([height-60,0])//sur espace graphique
+    
+    var MoisAxis= d3.axisLeft()
+  	.scale(y_mois)
+    .tickFormat(function(d){
+     return dictMois[formatMois(d)]+' '+formatAnnee(d);});
+      
+     svg.selectAll(".bar")
+      .data(data)
+      .enter().append("rect")
+      .attr("class", "bar")
+    	.style("fill", "grey")
+      .attr('transform','translate(70,' + -10 + ')')
+      .attr("width", function(d) {return x(d.distance)/63; } )
+      .attr("y", function(d) { return y_mois(d.mois); })
+      .attr("height", 10)
+    	.on('mousemove', function(d) {
+        	var mouse = d3.mouse(svg.node()).map(function(d) {
+            return parseInt(d);
+          })
+          tooltip.classed('hidden', false)
+            			.attr('style', 'left:' + (mouse[0] + 30) + 'px; top:' + (mouse[1]) + 'px')
+            			.html(dictMois[formatMois(d.mois)]+' '+formatAnnee(d.mois)+"<br>"+ Arrondi(d.distance) + " km"+"<br>"+Arrondi1(d.distance/63)+" Lyon-Saint-Étienne")
+     })
+        					.on('mouseout', function() {
+        	tooltip.classed('hidden', true);
+          });
+       
+     svg.append('g')
+  	.attr('transform', 'translate(70,' + 400 + ')') 
+  	.attr('class', 'x axis')
+  	.call(xAxis)
+    
+     svg.append("text")             
+     .attr("x", width/2 )
+     .attr("y", height-margin.top-10 )
+     .text("Proportion")
+     
+     svg.append('g') //groupe dans lequel on met tout pour créer un axe
+    .attr('transform','translate(70,' + 0 + ')')
+  	.attr('class', 'y axis')
+  	.call(MoisAxis)
+   
+     
+     svg.append("text")
+     .attr("transform", "rotate(-90)")
+     .attr("y", 0 - margin.left)
+     .attr("x",0 - (height / 2))
+     .attr("dy", "1em")
+     .text("Date")
+     
+   if (distance=='saint_etienne'){
+    size_stetienne(y_mois);
+  }  
+  if (distance=='clermont_ferrand'){
+    size_clermontferrand(y_mois);
+  }  
+   if (distance=='montpellier'){
+    size_montpellier(y_mois);
+  }  
+}     
+      
+function size_stetienne(y_mois) {
+    x.domain([0,5])
+    xAxis.scale(x)
+    d3.selectAll('g.x.axis')
+    .transition()
+    .attr('transform', 'translate(70,' + 400 + ')')
+    .call(xAxis)
+    
+    svg.selectAll(".bar")
+      .attr("class", "bar")
+    	.style("fill", "grey")
+      .attr('transform','translate(70,' + -10 + ')')
+      .attr("width", function(d) {return x(d.distance)/63; } )
+      .attr("y", function(d) { return y_mois(d.mois); })
+      .attr("height", 10)
+    	.on('mousemove', function(d) {
+        	var mouse = d3.mouse(svg.node()).map(function(d) {
+            return parseInt(d);
+          })
+          tooltip.classed('hidden', false)
+            			.attr('style', 'left:' + (mouse[0] + 30) + 'px; top:' + (mouse[1]) + 'px')
+            			.html(dictMois[formatMois(d.mois)]+' '+formatAnnee(d.mois)+"<br>"+ Arrondi(d.distance) + " km"+"<br>"+Arrondi1(d.distance/63)+" Lyon-Saint-Étienne")
+     })
+        					.on('mouseout', function() {
+        	tooltip.classed('hidden', true);
+          });
+
+
+}
+      
+function size_clermontferrand(y_mois) {
+    x.domain([0,2])
+    xAxis.scale(x)
+    d3.selectAll('g.x.axis')
+    .transition()
+    .attr('transform', 'translate(70,' + 400 + ')')
+    .call(xAxis)
+    
+    svg.selectAll(".bar")
+      .attr("class", "bar")
+    	.style("fill", "orange")
+      .attr('transform','translate(70,' + -10 + ')')
+      .attr("width", function(d) {return x(d.distance)/164; } )
+      .attr("y", function(d) { return y_mois(d.mois); })
+      .attr("height", 10)
+    	.on('mousemove', function(d) {
+        	var mouse = d3.mouse(svg.node()).map(function(d) {
+            return parseInt(d);
+          })
+          tooltip.classed('hidden', false)
+            			.attr('style', 'left:' + (mouse[0] + 30) + 'px; top:' + (mouse[1]) + 'px')
+            			.html(dictMois[formatMois(d.mois)]+' '+formatAnnee(d.mois)+"<br>"+ Arrondi(d.distance) + " km"+"<br>"+Arrondi1(d.distance/164)+" Lyon-Clermont-Ferrand")
+     })
+        					.on('mouseout', function() {
+        	tooltip.classed('hidden', true);
+          });
+}
+      
+function size_montpellier(y_mois) {
+    x.domain([0,1.2])
+    xAxis.scale(x)
+    d3.selectAll('g.x.axis')
+    .transition()
+    .attr('transform', 'translate(70,' + 400 + ')')
+    .call(xAxis)
+    
+    svg.selectAll(".bar")
+      .attr("class", "bar")
+    	.style("fill", "blue")
+      .attr('transform','translate(70,' + -10 + ')')
+      .attr("width", function(d) {return x(d.distance)/301; } )
+      .attr("y", function(d) { return y_mois(d.mois); })
+      .attr("height", 10)
+    	.on('mousemove', function(d) {
+        	var mouse = d3.mouse(svg.node()).map(function(d) {
+            return parseInt(d);
+          })
+          tooltip.classed('hidden', false)
+            			.attr('style', 'left:' + (mouse[0] + 30) + 'px; top:' + (mouse[1]) + 'px')
+            			.html(dictMois[formatMois(d.mois)]+' '+formatAnnee(d.mois)+"<br>"+ Arrondi(d.distance) + " km"+"<br>"+Arrondi1(d.distance/301)+" Lyon-Montpellier")
+     })
+        					.on('mouseout', function() {
+        	tooltip.classed('hidden', true);
+          });
+}
+   
+array=[2017,2018]
+trace_visualisation(array)
+
+function update(){
+  array=[];
+  if (d3.select("#check16").property("checked")){
+    array.push(2016)
+  }
+  if (d3.select("#check17").property("checked")){
+    array.push(2017)
+  }
+  if (d3.select("#check18").property("checked")){
+    array.push(2018)
+  }
+  if (d3.select("#check19").property("checked")){
+    array.push(2019)
+  }  
+  trace_visualisation(array)
+}
+      
+// définition des relations label/fonction
+d3.select("#check16").on("change",update);
+d3.select("#check17").on("change",update);
+d3.select("#check18").on("change",update);
+d3.select("#check19").on("change",update);
+d3.select("#distance_ref").on("change",function(){distance=d3.select(this).property("value"); update()})      
+ 
+    }); 
+  </script>
+</body>
+
 
