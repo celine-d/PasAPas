@@ -43,9 +43,35 @@ Extraction depuis les applications mobiles (santé sur IOS) : fichiers xml récu
  * Sur d3 : 
         https://bl.ocks.org/celine-d/ed0134c25cde81f3295a126c1e5f74ce/4539862c4f31c9d29b9c5fa36d5522ecbaceec63
         https://bl.ocks.org/lgautill/aad8bb2ad61124e0134753073fb392c6/882852a7da76896e025d876d180c902f055bd561
-        
- * Exemple en photo ci-dessous:
+  
+ ## Visualisations 
+ 
+ * Liens :
+ 
+ Scatterplot : contextualisation des données en calories brûlées et exercices
+ 
+ https://bl.ocks.org/lgautill/eb7ab63ab7ca6e039bfb407d923e1de5/9ca04173f9369028abc5596cea394ccb8b292b4b 
+ 
+ Barchart : contextualisation des données en distances parcourues
+ 
+ https://bl.ocks.org/lgautill/11c29ff7ec20da675782c9a3f757b4d1/0356a8e1482453b128c61c2e6fe65933a90a2182
+ 
+ Boxplot : 
+ 
+ Treemap :
+ 
+ * Descriptions des visualisations et caractéristiques :
+ 
+ Scatterplot : contextualisation des données en calories brûlées et exercices
+ 
+ Exemple en photo ci-dessous:
   <img src="Scatterplot.JPG" alt="">
+  
+ Barchart : contextualisation des données en distances parcourues
+  
+ Exemple en photo ci-dessous:
+  <img src="Scatterplot.JPG" alt="">
+  
   
  * Notre site:
  https://celine-d.github.io/PasAPas/
