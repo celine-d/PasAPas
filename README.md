@@ -68,16 +68,21 @@ Extraction depuis les applications mobiles (santé sur IOS) : fichiers xml récu
  Tout d'abord, en haut, il est possible de cocher les années que l'utilisateur souhaite voir apparaître. Ici, sur l'exemple, ce sont 2017 et 2018.<br>
   <img src="Scatterplot1.png" alt="" width=600 height=300>
   
-  Cette visualisation permet surtout de contextualiser les données. En premier, après "nombre de pas :", l'utilisateur peut cocher le nombre de pas référence qu'il souhaite. Ainsi, les points changent de couleur et sont en rouge si le nombre de pas est inférieur à la référence cochée et en vert s'il est supérieur. Ici, sur l'exemple le nombre de pas coché est de 7 500 pas correspondant à une personne modérément active. <br>
+Cette visualisation permet surtout de contextualiser les données. En premier, après "nombre de pas :", l'utilisateur peut cocher le nombre de pas référence qu'il souhaite. Ainsi, les points changent de couleur et sont en rouge si le nombre de pas est inférieur à la référence cochée et en vert s'il est supérieur. Ici, sur l'exemple le nombre de pas coché est de 7 500 pas correspondant à une personne modérément active. <br>
   <img src="Scatterplot2.png" alt="" width=600 height=300>
   
-  Enfin, la visualisation permet également de choisir une référence. Cette référence peut être de deux types, calorique : nombre de Big Mac ou de Coca-Cola éliminés ou sportive : nombre de minutes de boxe ou de nage lente réalisées. Les points apparaissent alors avec un diamètre plus ou moins important en fonction du résultat. En passant la souris sur les points, des informations supplémentaires s'affichent. Ici, on peut voir la référence en canettes de Coca-Cola et que le 7 Juin 2018, la personne a effectué 30 060 pas (ce qui est bien supérieur à 5 000 pas donc en vert) et éliminé 7,6 canettes de Coca-Cola.<br> 
+Enfin, la visualisation permet également de choisir une référence. Cette référence peut être de deux types, calorique : nombre de Big Mac ou de Coca-Cola éliminés ou sportive : nombre de minutes de boxe ou de nage lente réalisées. Les points apparaissent alors avec un diamètre plus ou moins important en fonction du résultat. En passant la souris sur les points, des informations supplémentaires s'affichent. Ici, on peut voir la référence en canettes de Coca-Cola et que le 7 Juin 2018, la personne a effectué 30 060 pas (ce qui est bien supérieur à 5 000 pas donc en vert) et éliminé 7,6 canettes de Coca-Cola.<br> 
  <img src="Scatterplot3.png" alt="" width=600 height=300>
   
  <b>Barchart : contextualisation des données en distances parcourues</b>
   
+Cette visualisation permet à l'utilisateur de connaître la distance qu'il a parcourue sur un mois et de la comparer à trois distances connues : Lyon-Saint-Étienne , Lyon-Clermont-Ferrand et Lyon-Montpellier. Tout d'abord, l'utilisateur peut choisir les années qu'il souhaite visualiser. De plus, par défaut, la distance référence est Lyon-Saint-Étienne. Ici, sur l'exemple ci-dessous toutes les années ont été cochées.
   <img src="Barchart1.png" alt="" width=600 height=300>
+  
+Sur cette exemple la distance référence est Lyon-Clermont-Ferrand. L'axe des abscisses a été modifié. De plus, en positionnant sa souris sur une barre, l'utilisateur a accès à des informations plus précises. Ici, en Octobre 2017, 148 km ont été parcourus ce qui correspond à 0,9 fois la distance Lyon-Clermont-Ferrand. 
   <img src="Barchart2.png" alt="" width=600 height=300>
+  
+Sur cette exemple la distance référence est Lyon-Montpellier. On peut observer qu'en Avril 2017, 99 km ont été parcourus ce qui correspond à 0,3 fois la distance Lyon-Montpellier. 
   <img src="Barchart3.png" alt="" width=600 height=300>
   
   
