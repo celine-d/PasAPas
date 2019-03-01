@@ -65,12 +65,16 @@ Extraction depuis les applications mobiles (santé sur IOS) : fichiers xml récu
  Scatterplot : contextualisation des données en calories brûlées et exercices
  
  Exemple en photo ci-dessous:
-  <img src="Scatterplot.JPG" alt="">
+  <img src="Scatterplot1.png" alt="">
+  <img src="Scatterplot2.png" alt="">
+  <img src="Scatterplot3.png" alt="">
   
  Barchart : contextualisation des données en distances parcourues
   
  Exemple en photo ci-dessous:
-  <img src="Scatterplot.JPG" alt="">
+  <img src="Barchart1.png" alt="">
+  <img src="Barchart2.png" alt="">
+  <img src="Barchart3.png" alt="">
   
   
  * Notre site:
