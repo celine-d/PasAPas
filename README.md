@@ -50,7 +50,7 @@ Extraction depuis les applications mobiles (santé sur IOS) : fichiers xml récu
  
  Scatterplot : contextualisation des données en calories brûlées et exercices
  
- https://bl.ocks.org/lgautill/eb7ab63ab7ca6e039bfb407d923e1de5/9ca04173f9369028abc5596cea394ccb8b292b4b 
+ https://bl.ocks.org/lgautill/eb7ab63ab7ca6e039bfb407d923e1de5/bbb763ce57abfe18a8d43f2192d7aa871f656bbe
  
  Barchart : contextualisation des données en distances parcourues
  
