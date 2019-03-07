@@ -91,6 +91,22 @@ Sur cette exemple la distance référence est Lyon-Montpellier. On peut observer
   
 <b>Boxplot : influence du jour de la semaine sur le nombre de pas</b>
 
+Cette visualisation permet de voir le nombre de pas effectués selon le jour de la semaine, afin de voir s'il existe un lien entre les deux. Il est possible de cocher les années que l’on souhaite visualiser grâce aux checkbox situées en haut à gauche (2017 et 2018 sur l’exemple ci-dessous).
+
+<img src="Boxplot1.png" alt="" width=600 height=300>
+
+Chaque point représente le nombre de pas effectués pour une date particulière. Les points sont positionnés sur l'axe des abscisses selon le jour de la semaine correspondant, et la couleur de chaque point représente l'année. (ci-dessus, vert pour 2017 et bleu pour 2018).
+Il est possible de connaître plus précisément le nombre de pas et la date liés à un point en passant la souris sur celui-ci. Sur l'exemple ci-dessous, le point représentant le nombre de pas le plus élevé pour un mardi de 2018 est le 5 juin 2018.
+
+<img src="Boxplot2.png" alt="" width=600 height=300>
+
+Le principe du boxplot est également de tracer des rectangles permettant de connaître la distribution statistiques des données : le haut du rectangle représente le 3ème quartile, le bas du rectangle représente le 1er quartile, et le milieu du rectangle représente la médiane. Il est possible de connaître ces données plus précisément en passant la souris sur le rectangle concerné, comme sur l'exemple ci-dessous : pour les mardis de l'année 2018, le nombre de pas médian est 7 255, et on sait que pour 75% des jours concernés, plus de 5 483 pas ont été effectués, et pour seulement 25% des jours concernés, le nombre de pas dépasse 11 235.
+
+<img src="Boxplot3.png" alt="" width=600 height=300>
+
+Cette visualisation permet donc de repérer si on a tendance à marcher plus certains jours de la semaine. Sur l'exemple ci-dessus, on peut voir que le nombre de pas est globalement plus élevé en fin de semaine. Elle permet aussi de mettre en évidence des dates particulières pour lesquelles le nombre de pas a été particulièrement important. Enfin, elle permet de visualiser une tendance globale selon les années : ici on voit que le nombre de pas effectués a été en général plus important en 2018 qu'en 2017, et ce pour chaque jour de la semaine. 
+
+
 <b>Treemap : influence de la saison sur le nombre de pas</b>
 
 Cette visualisation a pour but de voir si la saison de l’année a un impact sur le nombre de pas effectués. Il est possible de cocher les années que l’on souhaite visualiser grâce aux checkbox situées en haut à gauche (2017 et 2018 sur l’exemple ci-dessous).
