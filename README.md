@@ -56,9 +56,13 @@ Extraction depuis les applications mobiles (santé sur IOS) : fichiers xml récu
  
  https://bl.ocks.org/lgautill/11c29ff7ec20da675782c9a3f757b4d1/0356a8e1482453b128c61c2e6fe65933a90a2182
  
- Boxplot : 
+ Boxplot : influence du jour de la semaine sur le nombre de pas
  
- Treemap :
+ https://bl.ocks.org/sduprez/3b5cd439025e7b86fc6b5695e69572d4/78d2d9e36c24526f47ccbcae8c73af7167010323
+ 
+ Treemap : influence de la saison sur le nombre de pas
+ 
+ https://bl.ocks.org/sduprez/0ef524b8af8cc0ad70c3a6338662ab3e/d55755739cd6b1d166fbe93f61877d381ed981be
  
  * Descriptions des visualisations et de leurs caractéristiques :
  
@@ -84,6 +88,10 @@ Sur cette exemple la distance référence est Lyon-Clermont-Ferrand. L'axe des a
   
 Sur cette exemple la distance référence est Lyon-Montpellier. On peut observer qu'en Avril 2017, 99 km ont été parcourus ce qui correspond à 0,3 fois la distance Lyon-Montpellier. 
   <img src="Barchart3.png" alt="" width=600 height=300>
+  
+<b>Boxplot : influence du jour de la semaine sur le nombre de pas</b>
+
+<b>Treemap : influence de la saison sur le nombre de pas</b>
   
   
  * Notre site:
