@@ -61,7 +61,11 @@
     var formatMois = d3.timeFormat("%B");
     var formatJour = d3.timeFormat("%d");
     var formatJourSemaine = d3.timeFormat("%A");
-    
+     
+    // Couleurs
+    var colors = {'2016': "#d62728", '2017' : "#2ca02c" , '2018' : "#1f77b4", '2019' : "#ff7f0e"}
+	 
+    // Affichage des nombres
     var locale = d3.formatLocale({
   		decimal: ",",
   		thousands: " ",
@@ -70,11 +74,21 @@
     
     var Arrondi = locale.format(",.0f");
     
-    var colors = d3.scaleOrdinal(d3.schemeCategory10);
-    
+    // Tooltip
     var tooltip = d3.select("body").append("div") 
     	.attr("class", "tooltip")       
       .style("opacity", 0);
+	  
+	
+    function isInArray(value,array){
+      k = false;
+      Array.from(array).forEach(function(d){
+        if (d == value){
+          k = true;
+        }
+      })
+      return (k)
+    }
     
     
     d3.csv('https://raw.githubusercontent.com/celine-d/PasAPas/master/Health%20Data_jour.csv', function(rawdata) { 
@@ -89,16 +103,7 @@
       d.NumJour = formatJour(d.Date);
       
     })  
-    
-    function isInArray(value,array){
-      k = false;
-      Array.from(array).forEach(function(d){
-        if (d == value){
-          k = true;
-        }
-      })
-      return (k)
-    }
+   
     
     // Tracé du boxplot selon les années sélectionnées
       
@@ -108,7 +113,8 @@
     
     // Filtre sur les années sélectionnées
     data = rawdata.filter(function(d,i){return isInArray(+d.Annee, array)});
-    
+	    
+    // Données pour les points
     var data_dots = d3.nest()
     	.key(function(d){ return d.Jour;})
     	.entries(data);
@@ -271,7 +277,7 @@
      	.attr("r", 2.5)
       .attr("cx", function(d) { return x1(d.Annee) + x1.bandwidth()/2; })
       .attr("cy", function(d) { return y(d.Steps); }) 
-    	.style("fill", function(d) { return colors(d.Annee) })
+    	.style("fill", function(d) { return colors[d.Annee] })
       .on('mousemove', function(d) {
         	var mouse = d3.mouse(svg.node()).map(function(d) {
             return parseInt(d);
@@ -294,7 +300,7 @@
                           var quartiles = d.quartile;
                           var height = y(quartiles[0])-y(quartiles[2]);
                           return height;})
-      	.style("fill", function(d) { return colors(d.Annee) })
+      	.style("fill", function(d) { return colors[d.Annee] })
      		.attr("stroke", "#000")
       	.attr("stroke-width", 1)
       	.attr("opacity",0.5)
@@ -369,7 +375,7 @@
       		.attr("x", 80)
       		.attr("width", 16)
       		.attr("height", 16)
-      		.style("fill", function(d) { return colors(d); });
+      		.style("fill", function(d) { return colors[d]; });
 
     // Textes de la légende
   	legend.append("text")
