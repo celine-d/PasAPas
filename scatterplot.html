@@ -152,6 +152,7 @@ function trace_visualisation(array){
   	.attr('transform', 'translate(0,' + 420 + ')') //positions (x,y)
   	.attr('class', 'x axis')
   	.call(xAxis)
+	.call(xAxis.ticks(d3.timeMonth.every(3)));
     
     svg.append("text")             
      .attr("x", width-margin.left)
