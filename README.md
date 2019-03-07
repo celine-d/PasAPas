@@ -92,8 +92,15 @@ Sur cette exemple la distance référence est Lyon-Montpellier. On peut observer
 <b>Boxplot : influence du jour de la semaine sur le nombre de pas</b>
 
 <b>Treemap : influence de la saison sur le nombre de pas</b>
+
+Cette visualisation a pour but de voir si la saison de l’année a un impact sur le nombre de pas effectués. Il est possible de cocher les années que l’on souhaite visualiser grâce aux checkbox situées en haut à gauche (2017 et 2018 sur l’exemple ci-dessous).
   
-  
+<img src="Treemap.PNG" alt="" width=600 height=300>
+
+Les rectangles d’une même gamme de couleur représentent une même année, puis chaque rectangle au sein de ce groupe représente une saison de cette année. Les rectangles sont organisés par année puis par saison selon un ordre décroissant du nombre de pas : les blocs contenant le plus de pas sont situés en haut à gauche. L’intensité de la couleur varie selon le nombre de pas effectués. Dans chaque rectangle, on peut lire les informations suivantes : saison, année, nombre de pas. On affiche également un pourcentage, qui correspond au rapport entre le nombre de pas effectués sur la saison concernée et l’année complète. Par exemple, 36% des pas de l’année 2018 ont été effectués au printemps.  
+
+Cette visualisation permet donc de repérer rapidement l’année pendant laquelle le plus de pas ont été effectués (2018 ici), et pour chaque année, la saison pendant laquelle le plus de pas ont été effectués (Printemps pour 2018 et Automne pour 2017). Les pourcentages permettent de comparer les données de plusieurs années entre elles en remettant à l’échelle : par exemple, le printemps représente 36% des pas pour 2018, et 30% des pas pour 2017.
+
  * Notre site:
  https://celine-d.github.io/PasAPas/
         
